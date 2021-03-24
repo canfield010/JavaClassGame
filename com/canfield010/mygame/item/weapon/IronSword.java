@@ -5,7 +5,7 @@ import com.canfield010.mygame.mapsquares.MapSquare;
 
 public class IronSword extends Item {
     IronSword() {
-        super("Iron Sword");
+        super("Iron Sword", 1);
     }
 
     @Override

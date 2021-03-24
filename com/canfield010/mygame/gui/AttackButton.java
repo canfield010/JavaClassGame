@@ -1,4 +1,4 @@
-package com.canfield010.mygame.gu;
+package com.canfield010.mygame.gui;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.mapsquares.MapSquare;
@@ -9,7 +9,8 @@ public class AttackButton extends Button {
     }
 
     @Override
-    void click(MapSquare square) {
-        square.actor.weapon.use(square);
+    void click(Actor actor, MapSquare target) {
+        //attacks with weapon in melee slot in inventory
+        actor.inventory.meleeWeapon.use(target);
     }
 }
