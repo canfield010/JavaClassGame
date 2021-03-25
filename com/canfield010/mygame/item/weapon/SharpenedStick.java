@@ -5,13 +5,13 @@ import com.canfield010.mygame.mapsquares.MapSquare;
 
 import java.util.Random;
 
-public class IronSword extends Weapon {
+public class SharpenedStick extends Weapon {
 
-    //private final int maxDamage = 12;
-    //private final int minDamage = 9;
+    //private final int maxDamage = 3;
+    //private final int minDamage = 2;
 
-    IronSword() {
-        super("Iron Sword", 12, 9);
+    public SharpenedStick() {
+        super("Sharpened Stick", 3, 2);
     }
 
     /*@Override
@@ -19,6 +19,8 @@ public class IronSword extends Weapon {
         square.actor.damage(
                 new Random().nextInt(maxDamage - minDamage) + minDamage
         );
+
+        // or I could do (int)(Math.random()*(maxDamage-minDamage) + minDamage); Idk if that would be better considering it's using a static mehtod instead of making a new instance.
     }*/
 
     @Override

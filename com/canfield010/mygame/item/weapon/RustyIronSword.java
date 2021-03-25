@@ -5,13 +5,13 @@ import com.canfield010.mygame.mapsquares.MapSquare;
 
 import java.util.Random;
 
-public class IronSword extends Weapon {
+public class RustyIronSword extends Weapon {
 
-    //private final int maxDamage = 12;
-    //private final int minDamage = 9;
+    //private final int maxDamage = 8;
+    //private final int minDamage = 5;
 
-    IronSword() {
-        super("Iron Sword", 12, 9);
+    RustyIronSword() {
+        super("Rusty Iron Sword", 8, 5);
     }
 
     /*@Override
