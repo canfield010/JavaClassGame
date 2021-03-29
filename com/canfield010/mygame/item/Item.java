@@ -1,12 +1,13 @@
 package com.canfield010.mygame.item;
 
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public abstract class Item {
-    public int count;
-    public final int maximumCount;
+    public byte count;
+    public final byte maximumCount;
     public String name;
-    public Item(String name, int maxCount) {
+    public String description = "";
+    public Item(String name, byte maxCount) {
         this.name = name;
         this.maximumCount = maxCount;
     }

@@ -2,7 +2,7 @@ package com.canfield010.mygame.gui;
 
 //import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.actors.Actor;
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public abstract class Button {
     public String name;

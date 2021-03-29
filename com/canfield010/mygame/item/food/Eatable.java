@@ -6,7 +6,7 @@ import com.canfield010.mygame.item.Item;
 public abstract class Eatable extends Item {
 
     public Eatable(String name, int healthBoost) {
-        super(name, 32);
+        super(name, (byte)32);
         this.healthBoost = healthBoost;
     }
 

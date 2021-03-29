@@ -1,12 +1,12 @@
 package com.canfield010.mygame.item.tool;
 
 import com.canfield010.mygame.item.Item;
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Pickaxe extends Item {
 
     public Pickaxe() {
-        super("Pickaxe", 1);
+        super("Pickaxe", (byte)1);
     }
 
     @Override

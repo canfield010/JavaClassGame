@@ -1,10 +1,10 @@
 package com.canfield010.mygame.item;
 
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class IronOre extends Item {
     public IronOre() {
-        super("Iron Ore", 32);
+        super("Iron Ore", (byte)32);
     }
 
     @Override

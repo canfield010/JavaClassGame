@@ -2,7 +2,7 @@ package com.canfield010.mygame.item.food;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.item.Item;
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Blueberries extends Eatable {
 

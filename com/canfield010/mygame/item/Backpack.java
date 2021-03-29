@@ -1,11 +1,11 @@
 package com.canfield010.mygame.item;
 
-import com.canfield010.mygame.mapsquares.MapSquare;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Backpack extends Item {
 
     public Backpack() {
-        super("Backpack", 1);
+        super("Backpack", (byte)1);
     }
 
     @Override

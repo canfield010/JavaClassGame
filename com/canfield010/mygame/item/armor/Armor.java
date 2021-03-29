@@ -1,11 +1,12 @@
 package com.canfield010.mygame.item.armor;
 
 import com.canfield010.mygame.item.Item;
+import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Armor extends Item {
 
     public Armor(String name, float reduction, Type type) {
-        super(name, 1);
+        super(name, (byte)1);
         this.reduction = reduction;
         this.type = type;
     }
@@ -21,11 +22,11 @@ public class Armor extends Item {
     public final Type type;
 
     @Override
-    public boolean isUseful(com.canfield010.mygame.mapsquares.MapSquare square) {
+    public boolean isUseful(MapSquare square) {
         return false;
     }
 
     @Override
-    public void use(com.canfield010.mygame.mapsquares.MapSquare square) {}
+    public void use(MapSquare square) {}
 
 }
