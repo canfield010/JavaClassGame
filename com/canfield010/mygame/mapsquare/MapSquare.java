@@ -1,8 +1,8 @@
 package com.canfield010.mygame.mapsquare;
 
 import com.canfield010.mygame.actors.Actor;
-import com.canfield010.mygame.mapsquares.lowermapsquare.LowerMapSquare;
-import com.canfield010.mygame.mapsquares.uppermapsquare.UpperMapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.LowerMapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 
 import java.awt.Point;
 

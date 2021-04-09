@@ -1,7 +1,7 @@
 package com.canfield010.mygame.mapsquare.uppermapsquare.plant;
 
 import com.canfield010.mygame.Main;
-import com.canfield010.mygame.mapsquares.uppermapsquare.UpperMapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 
 import java.io.File;
 
@@ -17,8 +17,8 @@ public class Plant extends UpperMapSquare {
 
     public static boolean REQUIRES_FARMLAND;
 
-    public Plant(String name, boolean requiresFarmland, int maxGrowthStage) {
-        super(name);
+    public Plant(String name, boolean canMoveThrough, boolean requiresFarmland, int maxGrowthStage) {
+        super(name, canMoveThrough);
         this.growthStage = 0;
         //this.requiresFarmland = requiresFarmland;
         this.maxGrowthStage = maxGrowthStage;

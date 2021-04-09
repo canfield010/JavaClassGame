@@ -5,6 +5,9 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Armor extends Item {
 
+    public final float reduction;
+    public final Type type;
+
     public Armor(String name, float reduction, Type type) {
         super(name, (byte)1);
         this.reduction = reduction;
@@ -17,9 +20,6 @@ public class Armor extends Item {
         LEGGINGS,
         BOOTS
     }
-
-    public final float reduction;
-    public final Type type;
 
     @Override
     public boolean isUseful(MapSquare square) {
