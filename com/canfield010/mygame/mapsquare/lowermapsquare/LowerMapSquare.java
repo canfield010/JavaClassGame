@@ -1,4 +1,4 @@
-package com.canfield010.mygame.mapsquares.lowermapsquare;
+package com.canfield010.mygame.mapsquare.lowermapsquare;
 
 public class LowerMapSquare {
     public String name;
