@@ -1,9 +1,11 @@
 package com.canfield010.mygame.actors;
 
 import com.canfield010.mygame.Main;
+import com.canfield010.mygame.MapHolder;
 import com.canfield010.mygame.item.HealingStone;
 import com.canfield010.mygame.item.ProtectionRing;
 import com.canfield010.mygame.item.armor.Armor;
+import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
 import java.awt.Point;
@@ -51,22 +53,63 @@ public abstract class Actor {
 
     }
 
-    public static ArrayList<Point> getPath(Point start, Point end, byte length) {
+    /*public static MapHolder<Boolean, Byte> getSquaresToMoveTo(FinalPoint start, byte length) {
+        MapHolder<Boolean, Byte> mapHolder = new MapHolder<>();
 
-        ArrayList<ArrayList<Point>> paths = new ArrayList<>();
-        paths.add(new ArrayList<Point>());
+        byte extendedLength = (byte)((double)length*1.42D);
+
+        mapHolder.set((byte) 0, (byte) 0, true);
+
+
+
+
+        return mapHolder;
+    }
+
+    private static MapHolder<Boolean, Byte> searchMapSquares(MapHolder<Boolean, Byte> holder, byte depth, int x, int y) {
+
+        if (holder.get((byte)x, (byte)y)) {
+            return holder;
+        }
+
+        if (Main.mapSquares.get(x, y).canMoveTo()) {
+            holder.set(x, y, true);
+            holder = searchMapSquares(holder, (byte)(depth-1), x+1, y);
+            holder = searchMapSquares(holder, (byte)(depth-1), x, y+1);
+            holder = searchMapSquares(holder, (byte)(depth-1), x-1, y);
+            holder = searchMapSquares(holder, (byte)(depth-1), x, y-1);
+        } else {
+            return holder;
+        }
+
+        if (holder.get())
+
+        return null;
+    }*/
+    public MapHolder<Boolean, Byte> getSquaresToMoveTo() {
+        byte extendedRange = (byte)(movementRange*1.42);
+
+
+
+        return null;
+    }
+
+    public static ArrayList<Point> getPath(FinalPoint start, FinalPoint end, byte length) {
+
+        ArrayList<ArrayList<FinalPoint>> paths = new ArrayList<>();
+        paths.add(new ArrayList<FinalPoint>());
         paths.get(0).add(start);
 
         ArrayList<Point> closest = null;
         double closestDistance = length;
 
         while (length>0) {
-            for (ArrayList<Point> path: paths) {
+            for (ArrayList<FinalPoint> path: paths) {
                 boolean up = true;
                 boolean down = true;
                 boolean left = true;
                 boolean right = true;
-                for (Point point: path) {
+                for (FinalPoint point: path) {
                     if (up) {
                         if (!Main.squares[point.x][point.y+1].canMoveTo()) {
                             up = false;
@@ -89,7 +132,7 @@ public abstract class Actor {
                     }
 
                 }
-                Point point = path.get(path.size()-1);
+                FinalPoint point = path.get(path.size()-1);
                 if (up) {
                     if (Main.squares[point.x][point.y+1].canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();

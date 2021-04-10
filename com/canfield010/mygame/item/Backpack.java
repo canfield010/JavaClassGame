@@ -4,6 +4,8 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 
 public class Backpack extends Item {
 
+    public Item[] inventory = new Item[12];
+
     public Backpack() {
         super("Backpack", (byte)1);
     }

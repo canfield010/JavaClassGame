@@ -5,7 +5,7 @@ import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
 
 import java.awt.*;
 
-public class MapHolder<E extends Number> {
+public class MapHolder<T, E extends Number> {
     Node head = new Node();
 
     /*public MapHolder() {
@@ -25,7 +25,21 @@ public class MapHolder<E extends Number> {
         }
     }*/
 
-    public MapSquare get(E x, E y) throws WrongClassException {
+    public void set(E x, E y, T square) {// throws WrongClassException {
+        String myClassName = x.getClass().getName();
+        if (myClassName.equals(int.class.getName())) {
+            setSquare((int)x, (int)y, square);
+        } else if (myClassName.equals(short.class.getName())) {
+            setSquare((short)x, (short)y, square);
+        } else if (myClassName.equals(byte.class.getName())) {
+            setSquare((byte)x, (byte)y, square);
+        } else {
+            System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
+            //throw new WrongClassException();
+        }
+    }
+
+    public T get(E x, E y) {// throws WrongClassException {
         // first bit acts as a sign indicator and a 1 means it's negative. First bit needs to be negated.
         //boolean firstTime = true;
 
@@ -45,8 +59,9 @@ public class MapHolder<E extends Number> {
         } else if (myClassName.equals(byte.class.getName())) {
             return getSquare((byte)x, (byte)y);
         } else {
-            System.err.println("Fatal Error -- can't get map square because wrong type was used to create the MapHolder.");
-            throw new WrongClassException();
+            System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
+            return null;
+            //throw new WrongClassException();
         }
 
         /*for (int i = 32; i>0; i--) {
@@ -101,7 +116,8 @@ public class MapHolder<E extends Number> {
         }
         return currentNode.square;
     }*/
-    public MapSquare getSquare(int x, int y) {
+
+    private T getSquare(int x, int y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -126,13 +142,13 @@ public class MapHolder<E extends Number> {
         if (currentNode.square==null) {
 
         }
-        if (currentNode.square==null) {
-            currentNode.square = new MapSquare(null,null,null, new Point(x, y));
-            generateSquare(currentNode.square);
-        }
+        //if (currentNode.square==null) {
+            //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
+            //generateSquare(currentNode.square);
+        //}
         return currentNode.square;
     }
-    public MapSquare getSquare(short x, short y) {
+    private T getSquare(short x, short y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -154,13 +170,13 @@ public class MapHolder<E extends Number> {
             y<<=1;
             firstTime = false;
         }
-        if (currentNode.square==null) {
-            currentNode.square = new MapSquare(null,null,null, new Point(x, y));
-            generateSquare(currentNode.square);
-        }
+        //if (currentNode.square==null) {
+            //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
+            //generateSquare(currentNode.square);
+        //}
         return currentNode.square;
     }
-    public MapSquare getSquare(byte x, byte y) {
+    private T getSquare(byte x, byte y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -182,17 +198,93 @@ public class MapHolder<E extends Number> {
             y<<=1;
             firstTime = false;
         }
-        if (currentNode.square==null) {
-            currentNode.square = new MapSquare(null,null,null, new Point(x, y));
-            generateSquare(currentNode.square);
-        }
+        //if (currentNode.square==null) {
+            //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
+            //generateSquare(currentNode.square);
+        //}
         return currentNode.square;
     }
 
+    private void setSquare(int x, int y, T square) {
+        Node currentNode = head;
+        boolean firstTime = true;
+        for (int i = 32; i>0; i--) {
+            if ((x&0xF000_0000)==0) {
+                if ((y&0xF000_0000)==0) {
+                    currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                }
 
-    public void generateSquare(MapSquare square) {
-        square.lowerMapSquare = new Grass();
+            } else {
+                if ((y&0xF000_0000)==0) {
+                    currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                }
+            }
+            x<<=1;
+            y<<=1;
+            firstTime = false;
+        }
+        if (currentNode.square==null) {
+
+        }
+        currentNode.square = square;
     }
+    private void setSquare(short x, short y, T square) {
+        Node currentNode = head;
+        boolean firstTime = true;
+        for (int i = 32; i>0; i--) {
+            if ((x&(short)0xF000)==0) {
+                if ((y&(short)0xF000)==0) {
+                    currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                }
+
+            } else {
+                if ((y&(short)0xF000)==0) {
+                    currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                }
+            }
+            x<<=1;
+            y<<=1;
+            firstTime = false;
+        }
+        currentNode.square = square;
+    }
+    private void setSquare(byte x, byte y, T square) {
+        Node currentNode = head;
+        boolean firstTime = true;
+        for (int i = 32; i>0; i--) {
+            if ((x&(byte)0xF0)==0) {
+                if ((y&(byte)0xF0)==0) {
+                    currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                }
+
+            } else {
+                if ((y&(byte)0xF0)==0) {
+                    currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                }
+            }
+            x<<=1;
+            y<<=1;
+            firstTime = false;
+        }
+        currentNode.square = square;
+    }
+
+
+    //public void generateSquare(MapSquare square) {
+        //square.lowerMapSquare = new Grass();
+    //}
 
 
     private class Node {
@@ -200,6 +292,6 @@ public class MapHolder<E extends Number> {
         Node nextUpLeft = null;
         Node nextDownRight = null;
         Node nextDownLeft = null;
-        MapSquare square = null;
+        T square = null;
     }
 }

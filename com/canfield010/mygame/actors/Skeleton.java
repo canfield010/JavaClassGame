@@ -19,10 +19,10 @@ public class Skeleton extends Actor {
         super.tick();
         for (Actor actor: Main.actors) {
             if (actor instanceof Player) {
-                int dx = actor.squareOn.getCoordinates().x - squareOn.getCoordinates().x;
-                int dy = actor.squareOn.getCoordinates().y - squareOn.getCoordinates().y;
+                int dx = actor.squareOn.coordinates.x - squareOn.coordinates.x;
+                int dy = actor.squareOn.coordinates.y - squareOn.coordinates.y;
                 if (Math.sqrt(dx*dx + dy*dy)<=searchRange) {
-                    Main.animate(Player.getPath(squareOn.getCoordinates(), actor.squareOn.getCoordinates(), movementRange));
+                    Main.animate(Actor.getPath(squareOn.coordinates, actor.squareOn.coordinates, movementRange));
                 }
 
                 if (Math.sqrt(dx*dx + dy*dy)<=attackRange) {

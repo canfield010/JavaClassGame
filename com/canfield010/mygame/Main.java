@@ -18,6 +18,7 @@ public class Main {
 
     private static final int MAP_SIZE = 256;
     public static MapSquare[][] squares = new MapSquare[MAP_SIZE][MAP_SIZE];
+    public static MapHolder<MapSquare, Integer> mapSquares = new MapHolder<>();
     public static ArrayList<Farmland> farmland = new ArrayList<>();
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();

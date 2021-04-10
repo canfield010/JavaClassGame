@@ -1,40 +1,38 @@
 package com.canfield010.mygame.mapsquare;
 
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.gui.Button;
 import com.canfield010.mygame.mapsquares.lowermapsquare.LowerMapSquare;
-import com.canfield010.mygame.mapsquares.uppermapsquare.UpperMapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 
-import java.awt.Point;
+import javax.swing.*;
 
-public class MapSquare {
+public abstract class MapSquare extends JButton {
 
-    public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor, Point coordinates) {
+    public FinalPoint coordinates;
+    public LowerMapSquare lowerMapSquare;
+    public UpperMapSquare upperMapSquare;
+    public Actor occupant;
+    public Button[] gui;
+
+    public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor, FinalPoint coordinates) {
         this.lowerMapSquare = lowerMapSquare;
         this.upperMapSquare = upperMapSquare;
-        this.actor = actor;
+        this.occupant = actor;
         this.coordinates = coordinates;
     }
     public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor) {
         this.lowerMapSquare = lowerMapSquare;
         this.upperMapSquare = upperMapSquare;
-        this.actor = actor;
+        this.occupant = actor;
     }
-
-    private Point coordinates = new Point();
-    public LowerMapSquare lowerMapSquare;
-    public UpperMapSquare upperMapSquare;
-    public Actor actor;
 
     public boolean isEmpty() {
         // The compiler did it this way and I think it is EPIC!
-        return upperMapSquare == null && actor == null;
+        return upperMapSquare == null && occupant == null;
     }
 
     public boolean canMoveTo() {
         return true;
-    }
-
-    public Point getCoordinates() {
-        return coordinates;
     }
 }
