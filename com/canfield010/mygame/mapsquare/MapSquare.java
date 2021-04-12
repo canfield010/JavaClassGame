@@ -2,7 +2,7 @@ package com.canfield010.mygame.mapsquare;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.gui.Button;
-import com.canfield010.mygame.mapsquares.lowermapsquare.LowerMapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.LowerMapSquare;
 import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 
 import javax.swing.*;
