@@ -16,6 +16,7 @@ public class Main {
     public static final int PLANT_GROWTH_RATE = 10;
     // default is 10.
 
+    private static final int VISION_SIZE = 256;
     private static final int MAP_SIZE = 256;
     public static MapSquare[][] squares = new MapSquare[MAP_SIZE][MAP_SIZE];
     public static MapHolder<MapSquare, Integer> mapSquares = new MapHolder<>();

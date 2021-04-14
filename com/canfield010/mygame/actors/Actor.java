@@ -117,8 +117,8 @@ public abstract class Actor {
     }
 
     private boolean rayTraces(MapHolder<Byte, Byte> squares, byte x, byte y) {
-        byte newX = x;
-        byte newY = y;
+        byte newX;// = x;
+        byte newY;// = y;
         byte endX = 0;
         byte endY = 0;
         ArrayList<FinalPoint> path = new ArrayList<>();

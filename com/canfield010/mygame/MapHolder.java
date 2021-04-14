@@ -50,14 +50,18 @@ public class MapHolder<T, E extends Number> {
 
         String myClassName = x.getClass().getName();
         //Class<?> myClass = x.getClass();
-        /*if (myClassName.equals(long.class.getName())) {
-            return getSquare((long)x, (long)y);
-        } else */if (myClassName.equals(int.class.getName())) {
-            return getSquare((int)x, (int)y);
+        if (myClassName.equals(long.class.getName())) {
+            //return getSquare((long)x, (long)y);
+            return getSquare((long)x, (long)y, 0xF000_0000_0000_0000L, true, 64);
+        } else if (myClassName.equals(int.class.getName())) {
+            //return getSquare((int)x, (int)y);
+            return getSquare((long)x, (long)y, 0xF000_0000L, false, 32);
         } else if (myClassName.equals(short.class.getName())) {
-            return getSquare((short)x, (short)y);
+            //return getSquare((short)x, (short)y);
+            return getSquare((long)x, (long)y, 0xF000L, false, 16);
         } else if (myClassName.equals(byte.class.getName())) {
-            return getSquare((byte)x, (byte)y);
+            //return getSquare((byte)x, (byte)y);
+            return getSquare((long)x, (long)y, 0xF0L, false, 8);
         } else {
             System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
             return null;
@@ -145,6 +149,36 @@ public class MapHolder<T, E extends Number> {
         //if (currentNode.square==null) {
             //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
             //generateSquare(currentNode.square);
+        //}
+        return currentNode.square;
+    }
+    private T getSquare(long x, long y, long selector, boolean firstTime, int shiftCount) {
+        Node currentNode = head;
+        for (int i = shiftCount; i>0; i--) {
+            if ((x&(1L<<selector))==0) {
+                if ((y&(1L<<selector))==0) {
+                    currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                }
+
+            } else {
+                if ((y&(1L<<selector))==0) {
+                    currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                }
+            }
+            x<<=1;
+            y<<=1;
+            firstTime = false;
+        }
+        if (currentNode.square==null) {
+
+        }
+        //if (currentNode.square==null) {
+        //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
+        //generateSquare(currentNode.square);
         //}
         return currentNode.square;
     }
@@ -286,6 +320,20 @@ public class MapHolder<T, E extends Number> {
         //square.lowerMapSquare = new Grass();
     //}
 
+    private static int sizeof(Class dataType) {
+        if (dataType == null) return 4;
+
+        if (dataType == int.class    || dataType == Integer.class)   return 4;
+        if (dataType == short.class  || dataType == Short.class)     return 2;
+        if (dataType == byte.class   || dataType == Byte.class)      return 1;
+        if (dataType == char.class   || dataType == Character.class) return 2;
+        if (dataType == long.class   || dataType == Long.class)      return 8;
+        if (dataType == float.class  || dataType == Float.class)     return 4;
+        if (dataType == double.class || dataType == Double.class)    return 8;
+
+        return 4; // 32-bit memory pointer...
+        // (I'm not sure how this works on a 64-bit OS)
+    }
 
     private class Node {
         Node nextUpRight = null;
