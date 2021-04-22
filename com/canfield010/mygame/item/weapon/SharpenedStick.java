@@ -25,6 +25,6 @@ public class SharpenedStick extends Weapon {
 
     @Override
     public boolean isUseful(MapSquare square) {
-        return !(square.actor==null);
+        return !(square.occupant==null);
     }
 }

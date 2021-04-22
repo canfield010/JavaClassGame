@@ -18,7 +18,7 @@ public abstract class Weapon extends Item {
 
     @Override
     public void use(MapSquare square) {
-        square.actor.damage(
+        square.occupant.damage(
                 new Random().nextInt(maxDamage - minDamage) + minDamage
         );
     }

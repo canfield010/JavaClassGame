@@ -1,15 +1,18 @@
 package com.canfield010.mygame;
 
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.gui.Gui;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Farmland;
 import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Plant;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
+    public static Point playerPosition = new Point();
     private static final Random PLANT_RANDOM = new Random();
     private static float growthToGo = 0;
     private static float dryingToGo = 0;
@@ -24,7 +27,17 @@ public class Main {
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+
+        UIManager.setLookAndFeel(new javax.swing.plaf.nimbus.NimbusLookAndFeel());
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Gui.createAndShowGui("testing testing 123");
+            }
+        });
+
 
         // it can change these even though they're final because the selected address is final, not the data inside.
         //squares[0][0] = new MapSquare(new Water(), null, null, new Point());

@@ -27,12 +27,17 @@ public class MapHolder<T, E extends Number> {
 
     public void set(E x, E y, T square) {// throws WrongClassException {
         String myClassName = x.getClass().getName();
-        if (myClassName.equals(int.class.getName())) {
-            setSquare((int)x, (int)y, square);
+        if (myClassName.equals(long.class.getName())) {
+            setSquare((long)x, (long)y, 0x8000_0000_0000_0000L, true, 64, square);
+        } else if (myClassName.equals(int.class.getName())) {
+            //setSquare((int)x, (int)y, square);
+            setSquare((long)x, (long)y, 0x8000_0000L, false, 32, square);
         } else if (myClassName.equals(short.class.getName())) {
-            setSquare((short)x, (short)y, square);
+            //setSquare((short)x, (short)y, square);
+            setSquare((long)x, (long)y, 0x8000L, false, 16, square);
         } else if (myClassName.equals(byte.class.getName())) {
-            setSquare((byte)x, (byte)y, square);
+            //setSquare((byte)x, (byte)y, square);
+            setSquare((long)x, (long)y, 0x80L, false, 8, square);
         } else {
             System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
             //throw new WrongClassException();
@@ -52,16 +57,16 @@ public class MapHolder<T, E extends Number> {
         //Class<?> myClass = x.getClass();
         if (myClassName.equals(long.class.getName())) {
             //return getSquare((long)x, (long)y);
-            return getSquare((long)x, (long)y, 0xF000_0000_0000_0000L, true, 64);
+            return getSquare((long)x, (long)y, 0x8000_0000_0000_0000L, true, 64);
         } else if (myClassName.equals(int.class.getName())) {
             //return getSquare((int)x, (int)y);
-            return getSquare((long)x, (long)y, 0xF000_0000L, false, 32);
+            return getSquare((long)x, (long)y, 0x8000_0000L, false, 32);
         } else if (myClassName.equals(short.class.getName())) {
             //return getSquare((short)x, (short)y);
-            return getSquare((long)x, (long)y, 0xF000L, false, 16);
+            return getSquare((long)x, (long)y, 0x8000L, false, 16);
         } else if (myClassName.equals(byte.class.getName())) {
             //return getSquare((byte)x, (byte)y);
-            return getSquare((long)x, (long)y, 0xF0L, false, 8);
+            return getSquare((long)x, (long)y, 0x80L, false, 8);
         } else {
             System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
             return null;
@@ -237,6 +242,34 @@ public class MapHolder<T, E extends Number> {
             //generateSquare(currentNode.square);
         //}
         return currentNode.square;
+    }
+
+    private void setSquare(long x, long y, long selector, boolean firstTime, int shiftCount, T square) {
+        Node currentNode = head;
+        //boolean firstTime = true;
+        for (int i = 32; i>0; i--) {
+            if ((x&selector)==0) {
+                if ((y&selector)==0) {
+                    currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                }
+
+            } else {
+                if ((y&selector)==0) {
+                    currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
+                } else {
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                }
+            }
+            x<<=1;
+            y<<=1;
+            firstTime = false;
+        }
+        if (currentNode.square==null) {
+
+        }
+        currentNode.square = square;
     }
 
     private void setSquare(int x, int y, T square) {
