@@ -1,13 +1,7 @@
 package com.canfield010.mygame.gui;
 
 import javax.swing.*;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,12 +9,18 @@ public class Gui extends JFrame {
 
     public static int screenWidth = 856;
     public static int screenHeight = 482;
+    //public static int screenWidth = 200;
+    //public static int screenHeight = 1000;
+    public static final boolean DEBUG = false;
 
     JButton myBtn;
     JButton myBtn2;
     JButton myBtn3;
     JTextArea myTxtArea = new JTextArea("These are my starter words");
     JLabel label;
+
+    JButton playButton = new JButton("Play");
+    JButton settingsButton = new JButton("Settings");
 
     FlowLayout flowLayout;
     GridLayout gridLayout;
@@ -36,6 +36,7 @@ public class Gui extends JFrame {
 
     private void initComponents() {
         flowLayout = new FlowLayout();
+        //flowLayout.
         gridLayout = new GridLayout(1,1);
         borderLayout = new BorderLayout();
         //boxLayout = new BoxLayout();
@@ -56,6 +57,28 @@ public class Gui extends JFrame {
         //myBtn.setBackground(Color.GREEN);
         myBtn2.setBackground(Color.GREEN);
         myBtn3.setBackground(Color.GREEN);
+
+
+
+        playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playButton.setPreferredSize(new Dimension(screenWidth/4, screenHeight/10));
+        playButton.setFont(new Font("Arial", Font.PLAIN, Math.min((screenWidth/4)/6, (screenHeight/10))));
+        if (!DEBUG) {
+            playButton.setContentAreaFilled(false);
+        }
+        playButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        settingsButton.setPreferredSize(new Dimension(screenWidth/4, screenHeight/10));
+        settingsButton.setFont(new Font("Arial", Font.PLAIN, Math.min((screenWidth/4)/6, (screenHeight/10))));
+        if (!DEBUG) {
+            settingsButton.setContentAreaFilled(false);
+        }
+        settingsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
+
+
         addListeners();
     }
 
@@ -80,26 +103,52 @@ public class Gui extends JFrame {
         JButton btn = new JButton("Push");
 
 
-        btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
+        //btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
         //btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
         //btn.setAlignmentY(0.6F);
-        btn.setVerticalTextPosition(JLabel.CENTER);
-        //btn.setVerticalAlignment(SwingConstants.CENTER);
+        //btn.setVerticalTextPosition(JLabel.CENTER);
+        //btn.setVerticalAlignment(JButton.CENTER);
         //btn.setHorizontalAlignment(SwingConstants.CENTER);
         //btn.setHorizontalTextPosition(SwingConstants.CENTER);
 
+        //btn.setBounds(screenWidth/2, screenHeight/2, screenWidth/5, screenHeight/5);
+        btn.setVerticalAlignment(JButton.CENTER);
+        btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
+        //btn.setBorderPainted(false);
+        //btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        //btn.setSize(new Dimension(screenWidth/10, screenHeight/10));
 
         JPanel panel = new JPanel();
-        pane.setLayout(gridLayout);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        pane.setLayout(new GridBagLayout());
+        //pane.setLayout(flowLayout);
+
         //pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        pane.setPreferredSize(new Dimension(640, 480));
+        pane.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        //btn.setSize(new Dimension(screenWidth/10, screenHeight/10));
+        //btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
         //pane.add(myBtn);
         //pane.add(myBtn2);
         //pane.add(myBtn3);
         //myBtn.setSize(new Dimension(100, 100));
         //panel.add(myBtn);
-        panel.add(btn);
+        //panel.add(btn, JPane.CENTER_ALIGNMENT);
+
+        panel.add(playButton);//, Component.CENTER_ALIGNMENT);
+        panel.add(settingsButton);//, Component.CENTER_ALIGNMENT);
+        //pane.add(playButton);//, SwingConstants.CENTER);
+        //pane.add(settingsButton, 1);
         pane.add(panel);
+
+
+        //btn.setSize(new Dimension(screenWidth/10, screenHeight/10));
+        //btn.setPreferredSize(new Dimension(screenWidth/10, screenHeight/10));
+        //btn.setVerticalAlignment(SwingConstants.CENTER);
+        //btn.setVerticalTextPosition(JLabel.CENTER);
+
+
         //pane.add(myBtn2, BorderLayout.CENTER);
         //pane.add(myBtn3, BorderLayout.SOUTH);
         //pane.add(myTxtArea, BorderLayout.EAST);
