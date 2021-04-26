@@ -28,6 +28,7 @@ public class Main {
     public static ArrayList<Actor> actors = new ArrayList<>();
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        mapSquares.setClass(MapSquare.class);
 
         UIManager.setLookAndFeel(new javax.swing.plaf.nimbus.NimbusLookAndFeel());
 

@@ -1,5 +1,9 @@
 package com.canfield010.mygame.gui;
 
+import com.canfield010.mygame.Main;
+import com.canfield010.mygame.mapsquare.MapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +17,11 @@ public class Gui extends JFrame {
 
     public static final int STARTING_SCREEN_WIDTH = 856;
     public static final int STARTING_SCREEN_HEIGHT = 482;
+    private int cols = 32;
+    private int rows = 32;
     public static final boolean DEBUG = false;
     private JLayeredPane layeredPane = new JLayeredPane();
-    JButton[] myBtns = new JButton[1024];
+    MapSquare[] myBtns = new MapSquare[1024];
     JPanel btnPanel = new JPanel();
 
     JButton playButton = new JButton("Play");
@@ -33,7 +39,7 @@ public class Gui extends JFrame {
         this.setLayout(new BorderLayout());
         btnPanel.setLayout(null);
         for (int i = 0; i<myBtns.length; i++) {
-            myBtns[i] = makeButton("img/stoneFloor.png");
+            myBtns[i] = makeButton(i);
             btnPanel.add(myBtns[i]);
         }
         resetSizes();
@@ -86,13 +92,18 @@ public class Gui extends JFrame {
         this.add(layeredPane, BorderLayout.CENTER);
     }
 
-    private JButton makeButton(String filePath){
-        JButton btn = new JButton();
-        btn.setPreferredSize(new Dimension(35,35));
-        btn.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-        ImageIcon img = new ImageIcon(getScaledImage(filePath, 45,40));
-        btn.setIcon(img);
-        return btn;
+    private MapSquare makeButton(int i){
+        MapSquare mapSquare = Main.mapSquares.get(i%rows, i/rows);
+        if (mapSquare == null) {
+            System.out.println("wasNull");
+            mapSquare = new MapSquare(new Grass(), null, null, "img/stoneFloor.png");
+        }
+        //mapSquare.setPreferredSize(new Dimension(35,35));
+        //mapSquare.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        //ImageIcon img = new ImageIcon(getScaledImage(filePath, 45,40));
+        //btn.setIcon(img);
+        //mapSquare.setIcon(mapSquare.icon);
+        return mapSquare;
     }
     private Image getScaledImage(String imgPath, int w, int h){
 
@@ -120,8 +131,8 @@ public class Gui extends JFrame {
         int rows2 = (int)Math.floor(Math.sqrt(961/columnsPerRow));
         int cols2 = (int)Math.floor(961D/(double)rows2);
         // choosing minimum values to keep more zoomed in.
-        int cols = Math.min(cols1, cols2);
-        int rows = Math.min(rows1, rows2);
+         cols = Math.min(cols1, cols2);
+         rows = Math.min(rows1, rows2);
         double rowSize;
         double colSize;
         if (layeredPane.getWidth()==0 || layeredPane.getHeight()==0) {
@@ -133,6 +144,10 @@ public class Gui extends JFrame {
         }
         for (int index = 0; index<myBtns.length; index++) {
             myBtns[index].setBounds((int)(Math.floor((double)index%(double)rows)*colSize), (int)(Math.floor((double)index/(double)rows)*rowSize), (int)rowSize+1, (int)colSize+1);
+            //myBtns[index].setIcon(new ImageIcon(getScaledImage("img/stoneFloor.png", (int)(rowSize+1),(int)(colSize+1))));
+            //myBtns[index].getGraphics().drawImage((Image)myBtns[index].icon, 0, 0, (int)rowSize, (int)colSize, null);
+            //myBtns[index].setIcon((Icon)myBtns[index].icon);
+            myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize*1), (int)(colSize*1), Image.SCALE_DEFAULT)));
         }
     }
 

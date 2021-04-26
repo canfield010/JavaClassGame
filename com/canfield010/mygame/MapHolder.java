@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class MapHolder<T, E extends Number> {
     Node head = new Node();
+    Class t;
 
     /*public MapHolder() {
         E instance = new E();
@@ -43,6 +44,9 @@ public class MapHolder<T, E extends Number> {
             //throw new WrongClassException();
         }
     }
+    public void setClass(Class t) {
+        this.t = t;
+    }
 
     public T get(E x, E y) {// throws WrongClassException {
         // first bit acts as a sign indicator and a 1 means it's negative. First bit needs to be negated.
@@ -55,16 +59,16 @@ public class MapHolder<T, E extends Number> {
 
         String myClassName = x.getClass().getName();
         //Class<?> myClass = x.getClass();
-        if (myClassName.equals(long.class.getName())) {
+        if (myClassName.equals(Long.class.getName())) {
             //return getSquare((long)x, (long)y);
             return getSquare((long)x, (long)y, 0x8000_0000_0000_0000L, true, 64);
-        } else if (myClassName.equals(int.class.getName())) {
+        } else if (myClassName.equals(Integer.class.getName())) {
             //return getSquare((int)x, (int)y);
-            return getSquare((long)x, (long)y, 0x8000_0000L, false, 32);
-        } else if (myClassName.equals(short.class.getName())) {
+            return getSquare((long)((int)x), (long)((int)y), 0x8000_0000L, false, 32);
+        } else if (myClassName.equals(Short.class.getName())) {
             //return getSquare((short)x, (short)y);
             return getSquare((long)x, (long)y, 0x8000L, false, 16);
-        } else if (myClassName.equals(byte.class.getName())) {
+        } else if (myClassName.equals(Byte.class.getName())) {
             //return getSquare((byte)x, (byte)y);
             return getSquare((long)x, (long)y, 0x80L, false, 8);
         } else {
@@ -159,7 +163,11 @@ public class MapHolder<T, E extends Number> {
     }
     private T getSquare(long x, long y, long selector, boolean firstTime, int shiftCount) {
         Node currentNode = head;
+
         for (int i = shiftCount; i>0; i--) {
+            if (currentNode==null) {
+                currentNode = new Node();
+            }
             if ((x&(1L<<selector))==0) {
                 if ((y&(1L<<selector))==0) {
                     currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
@@ -178,8 +186,13 @@ public class MapHolder<T, E extends Number> {
             y<<=1;
             firstTime = false;
         }
+        if (currentNode==null) {
+            currentNode = new Node();
+        }
         if (currentNode.square==null) {
-
+            if (t.getName().equals(MapSquare.class.getName())) {
+                currentNode.square = (T)(new MapSquare(new Grass(), null, null, "img/colors.jpg"));
+            }
         }
         //if (currentNode.square==null) {
         //currentNode.square = new MapSquare(null,null,null, new Point(x, y));
