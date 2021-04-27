@@ -9,12 +9,12 @@ import java.io.IOException;
 
 public class LowerMapSquare {
     public String name;
-    private String imageLocation;
-    public Icon icon;
+    static String imageLocation;
+    public static ImageIcon icon;
     public LowerMapSquare(String name, String imageLocation) {
         this.name = name;
         this.imageLocation = imageLocation;
-        BufferedImage resizedImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        /*BufferedImage resizedImg = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -24,7 +24,7 @@ public class LowerMapSquare {
             e.printStackTrace();
         }
         g2.dispose();
-        icon = new ImageIcon(resizedImg);
+        icon = new ImageIcon(resizedImg);*/
     }
 
 }

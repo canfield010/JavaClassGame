@@ -2,6 +2,7 @@ package com.canfield010.mygame.gui;
 
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.mapsquare.MapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.LowerMapSquare;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -126,7 +127,7 @@ public class Gui extends JFrame {
         //return Main.mapSquares.get(i/rows, i%rows);
         return new JButton();
     }
-    private Image getScaledImage(String imgPath, int w, int h){
+    /*private Image getScaledImage(String imgPath, int w, int h){
 
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
@@ -140,7 +141,7 @@ public class Gui extends JFrame {
         g2.dispose();
 
         return resizedImg;
-    }
+    }*/
     private void resetSizes() {
         btnPanel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         panel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
@@ -169,6 +170,7 @@ public class Gui extends JFrame {
             //myBtns[i] = makeButton(i);
             //btnPanel.add(myBtns[i]);
         //}
+        MapSquare.resetImages((int)rowSize, (int)colSize);
         for (int index = 0; index<myBtns.length; index++) {
             //myBtns[index] = makeButton(index);
 
@@ -185,8 +187,14 @@ public class Gui extends JFrame {
             if (rows==0) {
                 rows = 32;
             }
-            myBtns[index].setIcon(new ImageIcon(((ImageIcon)Main.mapSquares.get(index/rows, index%rows).icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
+            //MapSquare.resetImages((int)rowSize, (int)colSize);
+            //myBtns[index].setIcon(new ImageIcon(((ImageIcon)Main.mapSquares.get(index/rows, index%rows).icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
             //myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
+            try {
+                myBtns[index].setIcon((Icon)Main.mapSquares.get(index/rows, index%rows).lowerMapSquare.icon);//Image.SCALE_DEFAULT)));
+            } catch (Exception ignored){
+                System.out.println(ignored);
+            }
         }
 
         layeredPane.moveToFront(panel);
