@@ -1,9 +1,8 @@
 package com.canfield010.mygame;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.Dirt;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
-
-import java.awt.*;
 
 public class MapHolder<T, E extends Number> {
     Node head = new Node();
@@ -28,19 +27,19 @@ public class MapHolder<T, E extends Number> {
 
     public void set(E x, E y, T square) {// throws WrongClassException {
         String myClassName = x.getClass().getName();
-        if (myClassName.equals(long.class.getName())) {
-            setSquare((long)x, (long)y, 0x8000_0000_0000_0000L, true, 64, square);
-        } else if (myClassName.equals(int.class.getName())) {
+        if (myClassName.equals(Long.class.getName())) {
+            setSquare(x.longValue(), y.longValue(), 0x8000_0000_0000_0000L, true, 64, square);
+        } else if (myClassName.equals(Integer.class.getName())) {
             //setSquare((int)x, (int)y, square);
-            setSquare((long)x, (long)y, 0x8000_0000L, false, 32, square);
-        } else if (myClassName.equals(short.class.getName())) {
+            setSquare(x.longValue(), y.longValue(), 0x8000_0000L, false, 32, square);
+        } else if (myClassName.equals(Short.class.getName())) {
             //setSquare((short)x, (short)y, square);
-            setSquare((long)x, (long)y, 0x8000L, false, 16, square);
-        } else if (myClassName.equals(byte.class.getName())) {
+            setSquare(x.longValue(), y.longValue(), 0x8000L, false, 16, square);
+        } else if (myClassName.equals(Byte.class.getName())) {
             //setSquare((byte)x, (byte)y, square);
-            setSquare((long)x, (long)y, 0x80L, false, 8, square);
+            setSquare(x.longValue(), y.longValue(), 0x80L, false, 8, square);
         } else {
-            System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
+            System.err.println("Can't set map square because wrong type was used to create the MapHolder.");
             //throw new WrongClassException();
         }
     }
@@ -61,16 +60,16 @@ public class MapHolder<T, E extends Number> {
         //Class<?> myClass = x.getClass();
         if (myClassName.equals(Long.class.getName())) {
             //return getSquare((long)x, (long)y);
-            return getSquare((long)x, (long)y, 0x8000_0000_0000_0000L, true, 64);
+            return getSquare(x.longValue(), y.longValue(), 0x8000_0000_0000_0000L, true, 64);
         } else if (myClassName.equals(Integer.class.getName())) {
             //return getSquare((int)x, (int)y);
-            return getSquare((long)((int)x), (long)((int)y), 0x8000_0000L, false, 32);
+            return getSquare(x.longValue(), y.longValue(), 0x8000_0000L, false, 32);
         } else if (myClassName.equals(Short.class.getName())) {
             //return getSquare((short)x, (short)y);
-            return getSquare((long)x, (long)y, 0x8000L, false, 16);
+            return getSquare(x.longValue(), y.longValue(), 0x8000L, false, 16);
         } else if (myClassName.equals(Byte.class.getName())) {
             //return getSquare((byte)x, (byte)y);
-            return getSquare((long)x, (long)y, 0x80L, false, 8);
+            return getSquare(x.longValue(), y.longValue(), 0x80L, false, 8);
         } else {
             System.err.println("Can't get map square because wrong type was used to create the MapHolder.");
             return null;
@@ -166,20 +165,25 @@ public class MapHolder<T, E extends Number> {
 
         for (int i = shiftCount; i>0; i--) {
             if (currentNode==null) {
+                //System.out.println("get null");
                 currentNode = new Node();
             }
-            if ((x&(1L<<selector))==0) {
-                if ((y&(1L<<selector))==0) {
+            if ((x&selector)==0) {
+                if ((y&selector)==0) {
+                    //System.out.println("get down left");
                     currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
                 } else {
-                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                    //System.out.println("get up left");
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextUpLeft;
                 }
 
             } else {
-                if ((y&(1L<<selector))==0) {
+                if ((y&selector)==0) {
+                    //System.out.println("get down right");
                     currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
                 } else {
-                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                    //System.out.println("get up right");
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextUpRight;
                 }
             }
             x<<=1;
@@ -187,11 +191,12 @@ public class MapHolder<T, E extends Number> {
             firstTime = false;
         }
         if (currentNode==null) {
+            //System.out.println("get final null");
             currentNode = new Node();
         }
         if (currentNode.square==null) {
             if (t.getName().equals(MapSquare.class.getName())) {
-                currentNode.square = (T)(new MapSquare(new Grass(), null, null, "img/colors.jpg"));
+                currentNode.square = (T)(new MapSquare(new Grass(), null, null));
             }
         }
         //if (currentNode.square==null) {
@@ -260,27 +265,45 @@ public class MapHolder<T, E extends Number> {
     private void setSquare(long x, long y, long selector, boolean firstTime, int shiftCount, T square) {
         Node currentNode = head;
         //boolean firstTime = true;
-        for (int i = 32; i>0; i--) {
+        for (int i = shiftCount; i>0; i--) {
+            if (currentNode.nextDownLeft==null) {
+                //System.out.println("set null");
+                currentNode.nextDownLeft = new Node();
+            }
+            if (currentNode.nextDownRight==null) {
+                currentNode.nextDownRight = new Node();
+            }
+            if (currentNode.nextUpLeft==null) {
+                currentNode.nextUpLeft = new Node();
+            }
+            if (currentNode.nextUpRight==null) {
+                currentNode.nextUpRight = new Node();
+            }
             if ((x&selector)==0) {
                 if ((y&selector)==0) {
+                    //System.out.println("set down left");
                     currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
                 } else {
-                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextDownLeft;
+                    //System.out.println("set up left");
+                    currentNode = firstTime ? currentNode.nextDownRight:currentNode.nextUpLeft;
                 }
 
             } else {
                 if ((y&selector)==0) {
+                    //System.out.println("set down right");
                     currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
                 } else {
-                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextDownRight;
+                    //System.out.println("set up right");
+                    currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextUpRight;
                 }
             }
             x<<=1;
             y<<=1;
             firstTime = false;
         }
-        if (currentNode.square==null) {
-
+        if (currentNode==null) {
+            //System.out.println("set final null");
+            currentNode = new Node();
         }
         currentNode.square = square;
     }
@@ -382,10 +405,10 @@ public class MapHolder<T, E extends Number> {
     }
 
     private class Node {
-        Node nextUpRight = null;
-        Node nextUpLeft = null;
-        Node nextDownRight = null;
-        Node nextDownLeft = null;
+        private Node nextUpRight = null;
+        private Node nextUpLeft = null;
+        private Node nextDownRight = null;
+        private Node nextDownLeft = null;
         T square = null;
     }
 }

@@ -1,7 +1,9 @@
 package com.canfield010.mygame;
 
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.gui.Gui;
+import com.canfield010.mygame.mapsquare.lowermapsquare.Dirt;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Farmland;
 import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Plant;
 import com.canfield010.mygame.mapsquare.MapSquare;
@@ -9,6 +11,7 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Main {
@@ -23,12 +26,23 @@ public class Main {
     private static final int MAP_SIZE = 256;
     public static MapSquare[][] squares = new MapSquare[MAP_SIZE][MAP_SIZE];
     public static MapHolder<MapSquare, Integer> mapSquares = new MapHolder<>();
+    public static MapHolder<MapSquare, Byte> mySquares = new MapHolder<>();
     public static ArrayList<Farmland> farmland = new ArrayList<>();
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         mapSquares.setClass(MapSquare.class);
+        //mySquares.setClass(MapSquare.class);
+        mapSquares.set(10, 10, new MapSquare(new Dirt(), null, null, new FinalPoint(10, 10)));
+        //mySquares.set((byte)-10, (byte)-10, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
+        System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
+        //for (int byte1 = -128; byte1<128; byte1++) {
+            //for (int byte2 = -128; byte2<128; byte2++) {
+                //mySquares.set((byte)byte1, (byte)byte2, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
+            //}
+        //}
+        //System.out.println(mySquares.get((byte)10, (byte)10).lowerMapSquare.name);
 
         UIManager.setLookAndFeel(new javax.swing.plaf.nimbus.NimbusLookAndFeel());
 
@@ -51,6 +65,17 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e);
         }*/
+        //MapHolder<String, Byte> testing = new MapHolder<>();
+        //testing.setClass(String.class);
+        //byte ten = 10;
+        //System.out.println(testing.get(ten, ten));
+        //testing.set(ten, ten, "hello");
+        //System.out.println();
+        //System.out.println(testing.get(ten, ten));
+        //System.out.println(testing.head.nextDownLeft);
+        //testing.set(ten, ten, "hello");
+        //System.out.println();
+        //System.out.println(testing.get(ten, ten));
     }
 
     public void tick() {

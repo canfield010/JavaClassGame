@@ -1,9 +1,6 @@
 package com.canfield010.mygame.item.weapon;
 
-import com.canfield010.mygame.item.Item;
 import com.canfield010.mygame.mapsquare.MapSquare;
-
-import java.util.Random;
 
 public class RustyIronSword extends Weapon {
 

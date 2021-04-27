@@ -1,6 +1,5 @@
 package com.canfield010.mygame.item.food;
 
-import com.canfield010.mygame.item.Item;
 import com.canfield010.mygame.mapsquare.MapSquare;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Farmland;
 

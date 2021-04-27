@@ -4,6 +4,6 @@ import com.canfield010.mygame.mapsquare.lowermapsquare.LowerMapSquare;
 
 public class Grass extends LowerMapSquare {
     public Grass() {
-        super("Grass");
+        super("Grass", "img/grass.png");
     }
 }

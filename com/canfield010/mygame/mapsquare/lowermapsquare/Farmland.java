@@ -8,7 +8,7 @@ public class Farmland extends LowerMapSquare {
     public byte hydration = 0;
 
     public Farmland() {
-        super("Farmland");
+        super("Farmland", "img/grass.png");
         Main.farmland.add(this);
     }
 }

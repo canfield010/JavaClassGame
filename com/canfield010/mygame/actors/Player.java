@@ -3,8 +3,6 @@ package com.canfield010.mygame.actors;
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
-import java.awt.*;
-
 public class Player extends Actor {
 
     public Player(MapSquare squareOn) {

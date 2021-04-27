@@ -3,8 +3,6 @@ package com.canfield010.mygame.actors;
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
-import java.awt.Point;
-
 public class Skeleton extends Actor {
 
     public final byte searchRange = 20;
