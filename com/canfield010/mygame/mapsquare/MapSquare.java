@@ -58,8 +58,16 @@ public class MapSquare extends JButton {
         Water.resetImage(x, y);
         WoodenPlanks.resetImage(x, y);
     }
+    public static void initalizeImages() {
+        Dirt.setImage();
+        Farmland.setImage();
+        Grass.setImage();
+        Lava.setImage();
+        Water.setImage();
+        WoodenPlanks.setImage();
+    }
 
-    public static BufferedImage getAnImage(String imageLocation, int x, int y) {
+    public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = bufferedImage.createGraphics();
 
@@ -73,8 +81,11 @@ public class MapSquare extends JButton {
         return bufferedImage;
     }
 
+    //public static Image getAnImage(String imageLoation)
+
     public ImageIcon getImage(int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
+        //Image bufferedImage = lowerMapSquare.image;
         Graphics2D g2 = bufferedImage.createGraphics();
         /*BufferedImageOp bufferedImageOp = new BufferedImageOp() {
             @Override
@@ -99,16 +110,22 @@ public class MapSquare extends JButton {
             }};*/
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        if (lowerMapSquare.bufferedImage == null) {
-            System.out.println("It truely is null!");
+        if (g2 == null) {
+            System.out.println("It truly is null!");
         }
         //g2.drawImage(lowerMapSquare.bufferedImage, bufferedImageOp, 0, 0);
-        g2.drawImage((Image)bufferedImage, 0, 0, x, y, new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        });
+        //g2.drawImage(lowerMapSquare.image, 0, 0, x, y, new ImageObserver() {
+            //@Override
+            //public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                //return false;
+            //}
+        //});
+        //try {
+            //g2.drawImage(ImageIO.read(new File(lowerMapSquare.imageLocation)), 0, 0, x, y, null);
+        //} catch (IOException e) {
+            //e.printStackTrace();
+        //}
+        g2.drawImage(lowerMapSquare.image, 0, 0, x, y, null);
         g2.dispose();
         return new ImageIcon(bufferedImage);
     }
@@ -117,15 +134,15 @@ public class MapSquare extends JButton {
         return true;
     }
 
-    public void drawGraphics(Graphics graphics, int x, int y) {
-        //graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        ImageObserver imageObserver = new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        };
-        graphics.drawImage(lowerMapSquare.bufferedImage, 0, 0, x, y, imageObserver);
+    public void drawGraphics(Graphics2D graphics, int x, int y) {
+        if (graphics==null) {
+            return;
+        }
+        System.out.println(lowerMapSquare.bufferedImage==null);
+        graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        //graphics.drawImage(lowerMapSquare.bufferedImage, 0, 0, x, y, imageObserver);
+        System.out.println(lowerMapSquare.image==null);
+        graphics.drawImage(lowerMapSquare.image, 0, 0, x, y, null);
         graphics.dispose();
     }
 }

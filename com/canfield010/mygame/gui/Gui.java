@@ -170,7 +170,8 @@ public class Gui extends JFrame {
             //myBtns[i] = makeButton(i);
             //btnPanel.add(myBtns[i]);
         //}
-        MapSquare.resetImages((int)rowSize, (int)colSize);
+        //MapSquare.resetImages((int)rowSize, (int)colSize);
+        //MapSquare.initalizeImages();
         for (int index = 0; index<myBtns.length; index++) {
             //myBtns[index] = makeButton(index);
 
@@ -191,8 +192,9 @@ public class Gui extends JFrame {
             //myBtns[index].setIcon(new ImageIcon(((ImageIcon)Main.mapSquares.get(index/rows, index%rows).icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
             //myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
             //try {
-                //myBtns[index].setIcon((Icon)Main.mapSquares.get(index/rows, index%rows).getImage((int)rowSize, (int)rowSize));//Image.SCALE_DEFAULT)));
-                Main.mapSquares.get(index/rows, index%rows).drawGraphics((myBtns[index].getGraphics()), (int)rowSize, (int)rowSize);
+                myBtns[index].setIcon(Main.mapSquares.get(index/rows, index%rows).getImage((int)rowSize, (int)rowSize));//Image.SCALE_DEFAULT)));
+                //Main.mapSquares.get(index/rows, index%rows).drawGraphics((Graphics2D)(myBtns[index].getGraphics()), (int)rowSize, (int)rowSize);
+            //System.out.println(myBtns[index].getGraphics()==null);
             //} catch (Exception ignored){
                 //System.out.println(ignored);
             //}
@@ -205,7 +207,10 @@ public class Gui extends JFrame {
     public static void createAndShowGui(String name) {
         Gui frame = new Gui(name);
 
+
+
         frame.initComponents();
+        MapSquare.initalizeImages();
         frame.addListeners();
         frame.addComponentsToPane();
 

@@ -4,14 +4,17 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 
 public class LowerMapSquare {
     public String name;
-    static String imageLocation;
+    public static String imageLocation;
     public static ImageIcon icon;
     public static BufferedImage bufferedImage;
+    public static Image image;
     public LowerMapSquare(String name, String imageLocation) {
         this.name = name;
         this.imageLocation = imageLocation;
@@ -27,5 +30,12 @@ public class LowerMapSquare {
         g2.dispose();
         icon = new ImageIcon(resizedImg);*/
     }
+    public static void setImage() {
+        try {
+            image = ImageIO.read(new File(imageLocation));
+        } catch (Exception ignored) {}
+    }
+
+
 
 }

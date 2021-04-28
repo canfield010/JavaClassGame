@@ -34,9 +34,10 @@ public class Main {
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         mapSquares.setClass(MapSquare.class);
         //mySquares.setClass(MapSquare.class);
-        mapSquares.set(10, 10, new MapSquare(new Dirt(), null, null, new FinalPoint(10, 10)));
+        //mapSquares.set(10, 10, new MapSquare(new Dirt(), null, null, new FinalPoint(10, 10)));
         //mySquares.set((byte)-10, (byte)-10, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
-        System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
+        //System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
+        MapSquare.initalizeImages();
         //for (int byte1 = -128; byte1<128; byte1++) {
             //for (int byte2 = -128; byte2<128; byte2++) {
                 //mySquares.set((byte)byte1, (byte)byte2, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));

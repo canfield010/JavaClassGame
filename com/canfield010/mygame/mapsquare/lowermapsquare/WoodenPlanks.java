@@ -2,11 +2,16 @@ package com.canfield010.mygame.mapsquare.lowermapsquare;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import javax.swing.*;
+
 public class WoodenPlanks extends LowerMapSquare {
     public WoodenPlanks() {
         super("Wooden Planks", "img/grass.png");
     }
     public static void resetImage(int x, int y) {
-        bufferedImage = MapSquare.getAnImage(imageLocation, x, y);
+        bufferedImage = MapSquare.getABufferedImage(imageLocation, x, y);
     }
+    //public static void setImage() {
+        //image = new ImageIcon(imageLocation).getImage();
+    //}
 }
