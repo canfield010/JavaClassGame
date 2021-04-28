@@ -22,7 +22,6 @@ public class Gui extends JFrame {
     public static final boolean DEBUG = false;
     private JLayeredPane layeredPane = new JLayeredPane();
     JButton[] myBtns = new JButton[1089];
-    //Point[] correspondingPoints = new Point[1089];
     JPanel btnPanel = new JPanel();
 
     JButton playButton = new JButton("Play");
@@ -41,11 +40,6 @@ public class Gui extends JFrame {
         btnPanel.setLayout(null);
         for (int i = 0; i<myBtns.length; i++) {
             myBtns[i] = makeButton(i);
-            //if (rows == 0) {
-            //correspondingPoints[i] = new Point(i/32, i%32);
-            //} else {
-            //correspondingPoints[i] = new Point(i/rows, i%rows);
-            //}
             btnPanel.add(myBtns[i]);
         }
 
@@ -53,9 +47,6 @@ public class Gui extends JFrame {
 
 
         playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //playButton.setAlignmentY(Component.CENTER_ALIGNMENT);
-        //playButton.setVerticalAlignment(JButton.CENTER);
-        //playButton.setLocation(buttonPanel.getWidth(), buttonPanel.getHeight());
         playButton.setFont(new Font("Arial", Font.PLAIN, Math.min((STARTING_SCREEN_WIDTH /4)/6, (STARTING_SCREEN_HEIGHT /10))));
         if (!DEBUG) {
             playButton.setContentAreaFilled(false);
@@ -63,22 +54,16 @@ public class Gui extends JFrame {
         playButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //settingsButton.setAlignmentY(Component.CENTER_ALIGNMENT);
-        //settingsButton.setVerticalAlignment(JButton.CENTER);
-        //settingsButton.setLocation(buttonPanel.getWidth(), buttonPanel.getHeight());
         settingsButton.setFont(new Font("Arial", Font.PLAIN, Math.min((STARTING_SCREEN_WIDTH /4)/6, (STARTING_SCREEN_HEIGHT /10))));
         if (!DEBUG) {
             settingsButton.setContentAreaFilled(false);
         }
         settingsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        //buttonPanel.setLayout(new GridBagLayout());
 
         // OMG it took me SO LONG to find this!!! Here's the solution:
         buttonPanel.setOpaque(false);
         panel.setOpaque(false);
-
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setLayout(new GridBagLayout());
 
         resetSizes();
@@ -115,38 +100,11 @@ public class Gui extends JFrame {
     }
 
     private JButton makeButton(int i){
-        //System.out.println(Integer.toString(i%rows) + ", " + Integer.toString(i/rows));
-        //mapSquare.setPreferredSize(new Dimension(35,35));
-        //mapSquare.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-        //ImageIcon img = new ImageIcon(getScaledImage(filePath, 45,40));
-        //btn.setIcon(img);
-        //mapSquare.setIcon(mapSquare.icon);
-        //if (rows == 0) {
-            //return Main.mapSquares.get(i/32, i%32);
-        //}
-        //return Main.mapSquares.get(i/rows, i%rows);
         return new JButton();
     }
-    /*private Image getScaledImage(String imgPath, int w, int h){
-
-        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = resizedImg.createGraphics();
-
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        try {
-            g2.drawImage(ImageIO.read(new File(imgPath)), 0, 0, w, h, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        g2.dispose();
-
-        return resizedImg;
-    }*/
     private void resetSizes() {
         btnPanel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         panel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
-        //playButton.setLocation((buttonPanel.getWidth()/2)-(playButton.getWidth()/2), (int)(buttonPanel.getHeight()/2.1));
-        //settingsButton.setLocation((buttonPanel.getWidth()/2)-(settingsButton.getWidth()/2), (int)(buttonPanel.getHeight()/2.5));
         double rowPerColumn = (double)layeredPane.getWidth()/(double)layeredPane.getHeight();
         double columnsPerRow = (double)layeredPane.getHeight()/(double)layeredPane.getWidth();
         int cols1 = (int)Math.floor(Math.sqrt(1089/rowPerColumn));
@@ -166,38 +124,12 @@ public class Gui extends JFrame {
             rowSize = layeredPane.getWidth()/(rows-1);
             colSize = layeredPane.getHeight()/(cols-1);
         }
-        //for (int i = 0; i<myBtns.length; i++) {
-            //myBtns[i] = makeButton(i);
-            //btnPanel.add(myBtns[i]);
-        //}
-        //MapSquare.resetImages((int)rowSize, (int)colSize);
-        //MapSquare.initalizeImages();
         for (int index = 0; index<myBtns.length; index++) {
-            //myBtns[index] = makeButton(index);
-
-            //if (rows == 0) {
-                //correspondingPoints[index] = new Point(index/32, index%32);
-            //} else {
-                //correspondingPoints[index] = new Point(index / rows, index % rows);
-            //}
             myBtns[index].setBounds((int)(Math.floor(((double)index)%((double)rows))*colSize), (int)(Math.floor(((double)index)/((double)rows))*rowSize), (int)rowSize+1, (int)colSize+1);
-            //myBtns[index].setIcon(new ImageIcon(getScaledImage("img/stoneFloor.png", (int)(rowSize+1),(int)(colSize+1))));
-            //myBtns[index].getGraphics().drawImage((Image)myBtns[index].icon, 0, 0, (int)rowSize, (int)colSize, null);
-            //myBtns[index].setIcon((Icon)myBtns[index].icon); 
-            //myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_DEFAULT)));//Image.SCALE_DEFAULT)));
             if (rows==0) {
                 rows = 32;
             }
-            //MapSquare.resetImages((int)rowSize, (int)colSize);
-            //myBtns[index].setIcon(new ImageIcon(((ImageIcon)Main.mapSquares.get(index/rows, index%rows).icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
-            //myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
-            //try {
-                myBtns[index].setIcon(Main.mapSquares.get(index/rows, index%rows).getImage((int)rowSize, (int)rowSize));//Image.SCALE_DEFAULT)));
-                //Main.mapSquares.get(index/rows, index%rows).drawGraphics((Graphics2D)(myBtns[index].getGraphics()), (int)rowSize, (int)rowSize);
-            //System.out.println(myBtns[index].getGraphics()==null);
-            //} catch (Exception ignored){
-                //System.out.println(ignored);
-            //}
+            myBtns[index].setIcon(Main.mapSquares.get(index/rows, index%rows).getImage((int)rowSize, (int)rowSize));
         }
 
         layeredPane.moveToFront(panel);

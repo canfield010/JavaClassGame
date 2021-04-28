@@ -33,30 +33,16 @@ public class MapSquare extends JButton {
         this.upperMapSquare = upperMapSquare;
         this.occupant = actor;
         this.coordinates = coordinates;
-        //icon = lowerMapSquare.icon;
     }
     public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor) {
         this.lowerMapSquare = lowerMapSquare;
         this.upperMapSquare = upperMapSquare;
         this.occupant = actor;
-        //icon = lowerMapSquare.icon;
     }
 
     public boolean isEmpty() {
         // The compiler did it this way and I think it is EPIC!
         return upperMapSquare == null && occupant == null;
-    }
-
-    //public void resetImage(int x, int y) {
-        //icon = lowerMapSquare.icon;
-    //}
-    public static void resetImages(int x, int y) {
-        Dirt.resetImage(x, y);
-        Farmland.resetImage(x, y);
-        Grass.resetImage(x, y);
-        Lava.resetImage(x, y);
-        Water.resetImage(x, y);
-        WoodenPlanks.resetImage(x, y);
     }
     public static void initalizeImages() {
         Dirt.setImage();
@@ -81,50 +67,14 @@ public class MapSquare extends JButton {
         return bufferedImage;
     }
 
-    //public static Image getAnImage(String imageLoation)
-
     public ImageIcon getImage(int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
-        //Image bufferedImage = lowerMapSquare.image;
         Graphics2D g2 = bufferedImage.createGraphics();
-        /*BufferedImageOp bufferedImageOp = new BufferedImageOp() {
-            @Override
-            public BufferedImage filter(BufferedImage src, BufferedImage dest) {
-                return null;
-            }
-            @Override
-            public Rectangle2D getBounds2D(BufferedImage src) {
-                return null;
-            }
-            @Override
-            public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
-                return null;
-            }
-            @Override
-            public Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
-                return null;
-            }
-            @Override
-            public RenderingHints getRenderingHints() {
-                return null;
-            }};*/
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         if (g2 == null) {
             System.out.println("It truly is null!");
         }
-        //g2.drawImage(lowerMapSquare.bufferedImage, bufferedImageOp, 0, 0);
-        //g2.drawImage(lowerMapSquare.image, 0, 0, x, y, new ImageObserver() {
-            //@Override
-            //public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                //return false;
-            //}
-        //});
-        //try {
-            //g2.drawImage(ImageIO.read(new File(lowerMapSquare.imageLocation)), 0, 0, x, y, null);
-        //} catch (IOException e) {
-            //e.printStackTrace();
-        //}
         g2.drawImage(lowerMapSquare.image, 0, 0, x, y, null);
         g2.dispose();
         return new ImageIcon(bufferedImage);
@@ -132,17 +82,5 @@ public class MapSquare extends JButton {
 
     public boolean canMoveTo() {
         return true;
-    }
-
-    public void drawGraphics(Graphics2D graphics, int x, int y) {
-        if (graphics==null) {
-            return;
-        }
-        System.out.println(lowerMapSquare.bufferedImage==null);
-        graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        //graphics.drawImage(lowerMapSquare.bufferedImage, 0, 0, x, y, imageObserver);
-        System.out.println(lowerMapSquare.image==null);
-        graphics.drawImage(lowerMapSquare.image, 0, 0, x, y, null);
-        graphics.dispose();
     }
 }
