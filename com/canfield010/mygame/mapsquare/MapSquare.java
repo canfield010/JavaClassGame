@@ -9,7 +9,12 @@ import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,20 +26,20 @@ public class MapSquare extends JButton {
     public Actor occupant;
     //public Button[] gui;
     //private String imageLocation;
-    public Icon icon;
+    //public Icon icon;
 
     public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor, FinalPoint coordinates) {
         this.lowerMapSquare = lowerMapSquare;
         this.upperMapSquare = upperMapSquare;
         this.occupant = actor;
         this.coordinates = coordinates;
-        icon = lowerMapSquare.icon;
+        //icon = lowerMapSquare.icon;
     }
     public MapSquare(LowerMapSquare lowerMapSquare, UpperMapSquare upperMapSquare, Actor actor) {
         this.lowerMapSquare = lowerMapSquare;
         this.upperMapSquare = upperMapSquare;
         this.occupant = actor;
-        icon = lowerMapSquare.icon;
+        //icon = lowerMapSquare.icon;
     }
 
     public boolean isEmpty() {
@@ -42,9 +47,9 @@ public class MapSquare extends JButton {
         return upperMapSquare == null && occupant == null;
     }
 
-    public void resetImage(int x, int y) {
-        icon = lowerMapSquare.icon;
-    }
+    //public void resetImage(int x, int y) {
+        //icon = lowerMapSquare.icon;
+    //}
     public static void resetImages(int x, int y) {
         Dirt.resetImage(x, y);
         Farmland.resetImage(x, y);
@@ -54,9 +59,9 @@ public class MapSquare extends JButton {
         WoodenPlanks.resetImage(x, y);
     }
 
-    public static ImageIcon getImage(String imageLocation, int x, int y) {
-        BufferedImage resizedImg = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = resizedImg.createGraphics();
+    public static BufferedImage getAnImage(String imageLocation, int x, int y) {
+        BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         try {
@@ -65,10 +70,62 @@ public class MapSquare extends JButton {
             e.printStackTrace();
         }
         g2.dispose();
-        return new ImageIcon(resizedImg);
+        return bufferedImage;
+    }
+
+    public ImageIcon getImage(int x, int y) {
+        BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        /*BufferedImageOp bufferedImageOp = new BufferedImageOp() {
+            @Override
+            public BufferedImage filter(BufferedImage src, BufferedImage dest) {
+                return null;
+            }
+            @Override
+            public Rectangle2D getBounds2D(BufferedImage src) {
+                return null;
+            }
+            @Override
+            public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
+                return null;
+            }
+            @Override
+            public Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
+                return null;
+            }
+            @Override
+            public RenderingHints getRenderingHints() {
+                return null;
+            }};*/
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        if (lowerMapSquare.bufferedImage == null) {
+            System.out.println("It truely is null!");
+        }
+        //g2.drawImage(lowerMapSquare.bufferedImage, bufferedImageOp, 0, 0);
+        g2.drawImage((Image)bufferedImage, 0, 0, x, y, new ImageObserver() {
+            @Override
+            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                return false;
+            }
+        });
+        g2.dispose();
+        return new ImageIcon(bufferedImage);
     }
 
     public boolean canMoveTo() {
         return true;
+    }
+
+    public void drawGraphics(Graphics graphics, int x, int y) {
+        //graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        ImageObserver imageObserver = new ImageObserver() {
+            @Override
+            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                return false;
+            }
+        };
+        graphics.drawImage(lowerMapSquare.bufferedImage, 0, 0, x, y, imageObserver);
+        graphics.dispose();
     }
 }

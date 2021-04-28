@@ -190,11 +190,12 @@ public class Gui extends JFrame {
             //MapSquare.resetImages((int)rowSize, (int)colSize);
             //myBtns[index].setIcon(new ImageIcon(((ImageIcon)Main.mapSquares.get(index/rows, index%rows).icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
             //myBtns[index].setIcon(new ImageIcon(((ImageIcon)myBtns[index].icon).getImage().getScaledInstance((int)(rowSize+1), (int)(colSize+1), Image.SCALE_FAST)));//Image.SCALE_DEFAULT)));
-            try {
-                myBtns[index].setIcon((Icon)Main.mapSquares.get(index/rows, index%rows).lowerMapSquare.icon);//Image.SCALE_DEFAULT)));
-            } catch (Exception ignored){
-                System.out.println(ignored);
-            }
+            //try {
+                //myBtns[index].setIcon((Icon)Main.mapSquares.get(index/rows, index%rows).getImage((int)rowSize, (int)rowSize));//Image.SCALE_DEFAULT)));
+                Main.mapSquares.get(index/rows, index%rows).drawGraphics((myBtns[index].getGraphics()), (int)rowSize, (int)rowSize);
+            //} catch (Exception ignored){
+                //System.out.println(ignored);
+            //}
         }
 
         layeredPane.moveToFront(panel);

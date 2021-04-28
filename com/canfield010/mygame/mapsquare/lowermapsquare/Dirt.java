@@ -2,8 +2,6 @@ package com.canfield010.mygame.mapsquare.lowermapsquare;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
 
-import javax.swing.*;
-
 public class Dirt extends LowerMapSquare{
 
     //public static ImageIcon icon;
@@ -13,7 +11,7 @@ public class Dirt extends LowerMapSquare{
     }
 
     public static void resetImage(int x, int y) {
-        icon = MapSquare.getImage(imageLocation, x, y);
+        bufferedImage = MapSquare.getAnImage(imageLocation, x, y);
     }
 
 }

@@ -11,6 +11,7 @@ public class LowerMapSquare {
     public String name;
     static String imageLocation;
     public static ImageIcon icon;
+    public static BufferedImage bufferedImage;
     public LowerMapSquare(String name, String imageLocation) {
         this.name = name;
         this.imageLocation = imageLocation;
