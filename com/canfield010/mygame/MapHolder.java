@@ -1,5 +1,6 @@
 package com.canfield010.mygame;
 
+import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Dirt;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
@@ -161,6 +162,8 @@ public class MapHolder<T, E extends Number> {
         return currentNode.square;
     }
     private T getSquare(long x, long y, long selector, boolean firstTime, int shiftCount) {
+        long shiftingX = x;
+        long shiftingY = y;
         Node currentNode = head;
 
         for (int i = shiftCount; i>0; i--) {
@@ -168,8 +171,8 @@ public class MapHolder<T, E extends Number> {
                 //System.out.println("get null");
                 currentNode = new Node();
             }
-            if ((x&selector)==0) {
-                if ((y&selector)==0) {
+            if ((shiftingX&selector)==0) {
+                if ((shiftingY&selector)==0) {
                     //System.out.println("get down left");
                     currentNode = firstTime ? currentNode.nextUpRight:currentNode.nextDownLeft;
                 } else {
@@ -178,7 +181,7 @@ public class MapHolder<T, E extends Number> {
                 }
 
             } else {
-                if ((y&selector)==0) {
+                if ((shiftingY&selector)==0) {
                     //System.out.println("get down right");
                     currentNode = firstTime ? currentNode.nextUpLeft:currentNode.nextDownRight;
                 } else {
@@ -186,8 +189,8 @@ public class MapHolder<T, E extends Number> {
                     currentNode = firstTime ? currentNode.nextDownLeft:currentNode.nextUpRight;
                 }
             }
-            x<<=1;
-            y<<=1;
+            shiftingX<<=1;
+            shiftingY<<=1;
             firstTime = false;
         }
         if (currentNode==null) {
@@ -196,7 +199,7 @@ public class MapHolder<T, E extends Number> {
         }
         if (currentNode.square==null) {
             if (t.getName().equals(MapSquare.class.getName())) {
-                currentNode.square = (T)(new MapSquare(new Grass(), null, null));
+                currentNode.square = (T)(new MapSquare(new Grass(), null, null, new FinalPoint((int)x, (int)y)));
             }
         }
         //if (currentNode.square==null) {

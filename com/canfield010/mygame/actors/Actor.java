@@ -8,7 +8,9 @@ import com.canfield010.mygame.item.armor.Armor;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
-import java.awt.Point;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public abstract class Actor {
@@ -19,6 +21,9 @@ public abstract class Actor {
     public byte movementRange;
     public String name;
     public MapSquare squareOn;
+
+    public static String imageLocation;
+    public static Image image;
 
     public Actor(String name, byte movementRange, MapSquare squareOn) {
         this.name = name;
@@ -381,6 +386,11 @@ public abstract class Actor {
 
     public void remove() {
         Main.actors.remove(this);
+    }
+    public static void setImage() {
+        try {
+            image = ImageIO.read(new File(imageLocation));
+        } catch (Exception ignored) {}
     }
 
 }

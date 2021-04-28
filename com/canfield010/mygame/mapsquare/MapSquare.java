@@ -51,6 +51,7 @@ public class MapSquare extends JButton {
         Lava.setImage();
         Water.setImage();
         WoodenPlanks.setImage();
+        Actor.setImage();
     }
 
     public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {
@@ -71,11 +72,14 @@ public class MapSquare extends JButton {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = bufferedImage.createGraphics();
 
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        if (g2 == null) {
-            System.out.println("It truly is null!");
+        //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        //if (lowerMapSquare == null) {
+            //System.out.println("It truly is null!");
+        //}
+        g2.drawImage(lowerMapSquare.getImage(), 0, 0, x, y, null);
+        if (occupant!=null) {
+            g2.drawImage(occupant.image, 0, 0, x, y, null);
         }
-        g2.drawImage(lowerMapSquare.image, 0, 0, x, y, null);
         g2.dispose();
         return new ImageIcon(bufferedImage);
     }

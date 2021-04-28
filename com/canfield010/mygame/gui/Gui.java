@@ -88,6 +88,17 @@ public class Gui extends JFrame {
         settingsButton.addActionListener(e -> {
             System.out.println("Click 2");
         });
+        addButtonListeners();
+    }
+    public void addButtonListeners() {
+        for (int index = 0; index<myBtns.length; index++) {
+            int finalIndex = index;
+            myBtns[index].addActionListener(e -> {
+                System.out.println(finalIndex/rows +", "+finalIndex%rows);
+                System.out.println(Main.mapSquares.get(finalIndex/rows, finalIndex%rows).lowerMapSquare.name);
+                System.out.println(Main.mapSquares.get(finalIndex/rows, finalIndex%rows).lowerMapSquare.getImageLocation());
+            });
+        }
     }
 
     private void addComponentsToPane() {
@@ -124,6 +135,7 @@ public class Gui extends JFrame {
             rowSize = layeredPane.getWidth()/(rows-1);
             colSize = layeredPane.getHeight()/(cols-1);
         }
+        //MapSquare.initalizeImages();
         for (int index = 0; index<myBtns.length; index++) {
             myBtns[index].setBounds((int)(Math.floor(((double)index)%((double)rows))*colSize), (int)(Math.floor(((double)index)/((double)rows))*rowSize), (int)rowSize+1, (int)colSize+1);
             if (rows==0) {

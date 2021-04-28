@@ -1,6 +1,7 @@
 package com.canfield010.mygame;
 
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.actors.Player;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.gui.Gui;
 import com.canfield010.mygame.mapsquare.lowermapsquare.Dirt;
@@ -34,10 +35,11 @@ public class Main {
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         mapSquares.setClass(MapSquare.class);
         //mySquares.setClass(MapSquare.class);
-        //mapSquares.set(10, 10, new MapSquare(new Dirt(), null, null, new FinalPoint(10, 10)));
+        mapSquares.set(10, 10, new MapSquare(new Dirt(), null, new Player(mapSquares.get(10, 10)), new FinalPoint(10, 10)));
+        mapSquares.set(11, 11, new MapSquare(new Dirt(), null, null, new FinalPoint(11, 11)));
         //mySquares.set((byte)-10, (byte)-10, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
-        //System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
-        MapSquare.initalizeImages();
+        System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
+        //MapSquare.initalizeImages();
         //for (int byte1 = -128; byte1<128; byte1++) {
             //for (int byte2 = -128; byte2<128; byte2++) {
                 //mySquares.set((byte)byte1, (byte)byte2, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
