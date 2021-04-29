@@ -3,10 +3,15 @@ package com.canfield010.mygame.actors;
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+
 public class Skeleton extends Actor {
 
     public final byte searchRange = 20;
     public final byte attackRange = 25;
+    public static Image image;
 
     public Skeleton(MapSquare squareOn) {
         super("Skeleton", (byte)5, squareOn);
@@ -32,4 +37,12 @@ public class Skeleton extends Actor {
             }
         }
     }
+    public static void setImage() {
+        try {
+            image = ImageIO.read(new File("img/player.png"));
+        } catch (Exception ignored) {}
+    }
+    public Image getImage() {
+        return image;
+    };
 }

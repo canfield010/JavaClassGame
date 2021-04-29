@@ -22,9 +22,6 @@ public abstract class Actor {
     public String name;
     public MapSquare squareOn;
 
-    public static String imageLocation;
-    public static Image image;
-
     public Actor(String name, byte movementRange, MapSquare squareOn) {
         this.name = name;
         this.movementRange = movementRange;
@@ -250,19 +247,19 @@ public abstract class Actor {
 
     private MapHolder<Byte, Byte> getAdjacentSquares(MapHolder<Byte, Byte> squares, byte depth, int x, int y) {
         if (depth>0) {
-            if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)>depth)) {
+            if (Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)>depth)) {
                 squares.set((byte)(x + 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x + 1, y);
             }
-            if (Main.mapSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))>depth)) {
+            if (Main.gameSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))>depth)) {
                 squares.set((byte)x, (byte)(y + 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y+1);
             }
-            if (Main.mapSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)>depth)) {
+            if (Main.gameSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)>depth)) {
                 squares.set((byte)(x - 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x - 1, y);
             }
-            if (Main.mapSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))>depth)) {
+            if (Main.gameSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))>depth)) {
                 squares.set((byte)x, (byte)(y - 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y - 1);
             }
@@ -287,22 +284,22 @@ public abstract class Actor {
                 boolean right = true;
                 for (FinalPoint point: path) {
                     if (up) {
-                        if (!Main.squares[point.x][point.y+1].canMoveTo()) {
+                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
                             up = false;
                         }
                     }
                     if (down) {
-                        if (!Main.squares[point.x][point.y+1].canMoveTo()) {
+                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
                             down = false;
                         }
                     }
                     if (left) {
-                        if (!Main.squares[point.x][point.y+1].canMoveTo()) {
+                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
                             left = false;
                         }
                     }
                     if (right) {
-                        if (!Main.squares[point.x][point.y+1].canMoveTo()) {
+                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
                             right = false;
                         }
                     }
@@ -310,7 +307,7 @@ public abstract class Actor {
                 }
                 FinalPoint point = path.get(path.size()-1);
                 if (up) {
-                    if (Main.squares[point.x][point.y+1].canMoveTo()) {
+                    if (Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x, point.y+1);
                         newList.add(newPoint);
@@ -327,7 +324,7 @@ public abstract class Actor {
                     }
                 }
                 if (down) {
-                    if (Main.squares[point.x][point.y-1].canMoveTo()) {
+                    if (Main.gameSquares.get(point.x, point.y-1).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x, point.y-1);
                         newList.add(newPoint);
@@ -344,7 +341,7 @@ public abstract class Actor {
                     }
                 }
                 if (left) {
-                    if (Main.squares[point.x-1][point.y].canMoveTo()) {
+                    if (Main.gameSquares.get(point.x-1, point.y).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x-1, point.y);
                         newList.add(newPoint);
@@ -361,7 +358,7 @@ public abstract class Actor {
                     }
                 }
                 if (right) {
-                    if (Main.squares[point.x+1][point.y].canMoveTo()) {
+                    if (Main.gameSquares.get(point.x+1, point.y).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x+1, point.y);
                         newList.add(newPoint);
@@ -387,10 +384,7 @@ public abstract class Actor {
     public void remove() {
         Main.actors.remove(this);
     }
-    public static void setImage() {
-        try {
-            image = ImageIO.read(new File(imageLocation));
-        } catch (Exception ignored) {}
-    }
+
+    public abstract Image getImage();
 
 }

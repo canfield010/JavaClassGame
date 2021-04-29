@@ -21,8 +21,7 @@ public class WoodenPlanks extends LowerMapSquare {
             System.out.println(e);
         }
     }
-    @Override
-    public static Image getImage() {
+    public Image getImage() {
         return image;
     };
 }

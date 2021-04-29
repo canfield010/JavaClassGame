@@ -23,8 +23,8 @@ public class Dirt extends LowerMapSquare{
             System.out.println(e);
         }
     }
-    public static String getImageLocation() {
-        return "img/dirt.png";
+    public Image getImage() {
+        return image;
     };
 
 }

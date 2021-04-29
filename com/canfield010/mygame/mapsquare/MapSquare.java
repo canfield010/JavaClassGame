@@ -1,6 +1,7 @@
 package com.canfield010.mygame.mapsquare;
 
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.actors.Player;
 import com.canfield010.mygame.gui.Button;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.lowermapsquare.*;
@@ -51,7 +52,7 @@ public class MapSquare extends JButton {
         Lava.setImage();
         Water.setImage();
         WoodenPlanks.setImage();
-        Actor.setImage();
+        Player.setImage();
     }
 
     public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {
@@ -78,7 +79,8 @@ public class MapSquare extends JButton {
         //}
         g2.drawImage(lowerMapSquare.getImage(), 0, 0, x, y, null);
         if (occupant!=null) {
-            g2.drawImage(occupant.image, 0, 0, x, y, null);
+            g2.drawImage(occupant.getImage(), 0, 0, x, y, null);
+            //g2.drawImage(new Grass().image, 0, 0, x, y, null);
         }
         g2.dispose();
         return new ImageIcon(bufferedImage);

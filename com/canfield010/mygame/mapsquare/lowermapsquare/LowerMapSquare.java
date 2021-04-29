@@ -16,9 +16,7 @@ public abstract class LowerMapSquare {
         this.name = name;
     }
 
-    public static Image getImage() {
-        return null;
-    };
+    public abstract Image getImage();
 
 
 

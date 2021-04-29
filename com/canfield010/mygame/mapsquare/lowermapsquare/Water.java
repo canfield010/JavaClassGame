@@ -21,7 +21,7 @@ public class Water extends LowerMapSquare {
             System.out.println(e);
         }
     }
-    public static String getImageLocation() {
-        return "img/grass.png";
+    public Image getImage() {
+        return image;
     };
 }

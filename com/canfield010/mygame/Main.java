@@ -12,7 +12,6 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 public class Main {
@@ -23,22 +22,24 @@ public class Main {
     public static final int PLANT_GROWTH_RATE = 10;
     // default is 10.
 
-    private static final int VISION_SIZE = 256;
-    private static final int MAP_SIZE = 256;
-    public static MapSquare[][] squares = new MapSquare[MAP_SIZE][MAP_SIZE];
-    public static MapHolder<MapSquare, Integer> mapSquares = new MapHolder<>();
+    //private static final int VISION_SIZE = 256;
+    //private static final int MAP_SIZE = 256;
+    //public static MapSquare[][] squares = new MapSquare[MAP_SIZE][MAP_SIZE];
+    public static MapHolder<MapSquare, Integer> backgroundSquares = new MapHolder<>();
+    public static MapHolder<MapSquare, Integer> gameSquares = new MapHolder<>();
     public static MapHolder<MapSquare, Byte> mySquares = new MapHolder<>();
     public static ArrayList<Farmland> farmland = new ArrayList<>();
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        mapSquares.setClass(MapSquare.class);
+        backgroundSquares.setClass(MapSquare.class);
+        gameSquares.setClass(MapSquare.class);
         //mySquares.setClass(MapSquare.class);
-        mapSquares.set(10, 10, new MapSquare(new Dirt(), null, new Player(mapSquares.get(10, 10)), new FinalPoint(10, 10)));
-        mapSquares.set(11, 11, new MapSquare(new Dirt(), null, null, new FinalPoint(11, 11)));
+        backgroundSquares.set(10, 10, new MapSquare(new Dirt(), null, new Player(backgroundSquares.get(10, 10)), new FinalPoint(10, 10)));
+        backgroundSquares.set(11, 11, new MapSquare(new Dirt(), null, null, new FinalPoint(11, 11)));
         //mySquares.set((byte)-10, (byte)-10, new MapSquare(new Dirt(), null, null, new FinalPoint(-10, -10)));
-        System.out.println(mapSquares.get(10, 10).lowerMapSquare.name);
+        //System.out.println(backgroundSquares.get(10, 10).lowerMapSquare.name);
         //MapSquare.initalizeImages();
         //for (int byte1 = -128; byte1<128; byte1++) {
             //for (int byte2 = -128; byte2<128; byte2++) {
