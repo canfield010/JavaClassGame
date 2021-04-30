@@ -90,25 +90,34 @@ public abstract class Actor {
         return null;
     }*/
     public MapHolder<Boolean, Byte> getSquaresToMoveTo() {
+        //System.out.println("actually though?");
         byte extendedRange = (byte)Math.floor(movementRange*1.42);
         MapHolder<Byte, Byte> squares = new MapHolder<>();
+        squares.setClass(Byte.class);
         squares.set((byte)0, (byte)0, extendedRange);
         squares = getAdjacentSquares(squares, extendedRange, 0, 0);
+        //System.out.println(squares.get((byte)0, (byte)0));
 
         MapHolder<Boolean, Byte> boolSquares = new MapHolder<>();
+        boolSquares.setClass(boolean.class);
 
-        for (byte x = (byte)-extendedRange; x<extendedRange; x++) {
-            for (byte y = (byte)-extendedRange; y<extendedRange; y++) {
-                if (squares.get(x, y)==null)
-                    break;
+        for (byte x = (byte)(-extendedRange); x<extendedRange; x++) {
+            for (byte y = (byte)(-extendedRange); y<extendedRange; y++) {
+                byte finalX = x;
+                byte finalY = y;
+                System.out.println(x+", "+y);
+                if (squares.get(finalX, finalY)==null) break;
+                System.out.println("got one not null");
+                //System.out.println(x+", "+y);
+                boolSquares.set(finalX, finalY, true);
 
-                if (extendedRange-movementRange>=squares.get(x, y)) {
+                if (extendedRange-movementRange>=squares.get(finalX, finalY)) {
                     //if (rayTrace(squares, x, y)) {
                         //boolSquares.set(x, y, true);
                     //} else {
                         //boolSquares.set(x, y, false);
                     //}
-                    boolSquares.set(x, y, rayTraces(squares, x, y));
+                    boolSquares.set(finalX, finalY, rayTraces(squares, finalX, finalY));
                     // I AM A GENIUS!!!!!!!!!!!!!!!!
                 }
             }
@@ -247,19 +256,19 @@ public abstract class Actor {
 
     private MapHolder<Byte, Byte> getAdjacentSquares(MapHolder<Byte, Byte> squares, byte depth, int x, int y) {
         if (depth>0) {
-            if (Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)>depth)) {
+            if (Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)<depth)) {
                 squares.set((byte)(x + 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x + 1, y);
             }
-            if (Main.gameSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))>depth)) {
+            if (Main.gameSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))<depth)) {
                 squares.set((byte)x, (byte)(y + 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y+1);
             }
-            if (Main.gameSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)>depth)) {
+            if (Main.gameSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)<depth)) {
                 squares.set((byte)(x - 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x - 1, y);
             }
-            if (Main.gameSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))>depth)) {
+            if (Main.gameSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))<depth)) {
                 squares.set((byte)x, (byte)(y - 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y - 1);
             }

@@ -2,10 +2,12 @@ package com.canfield010.mygame.gui;
 
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.MapHolder;
+import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ public class Gui extends JFrame {
 
     public static MapHolder<MapSquare, Integer> mapSquares = Main.backgroundSquares;
     public static ActionListener actionListener;
+    public Border btnBorder = BorderFactory.createLineBorder(Color.GREEN, 2);
 
     public static final int STARTING_SCREEN_WIDTH = 856;
     public static final int STARTING_SCREEN_HEIGHT = 482;
@@ -92,6 +95,7 @@ public class Gui extends JFrame {
             onMenu = false;
             layeredPane.remove(panel);
             layeredPane.moveToFront(btnPanel);
+            getMovableSquares();
             System.out.println("Click 1");
         });
         settingsButton.addActionListener(e -> {
@@ -131,10 +135,12 @@ public class Gui extends JFrame {
             actionListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
-                    System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
-                    movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
-                    System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
+                    if (((JButton)e.getSource()).getBorder().equals(btnBorder)) {
+                        System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
+                        System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
+                        movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                        System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
+                    }
                 }
             };
             myBtns[index].addActionListener(actionListener);
@@ -189,6 +195,9 @@ public class Gui extends JFrame {
                 rows = 32;
             }
             myBtns[index].setIcon(mapSquares.get((index/rows)+Main.playerPosition.x-(cols/2), (index%rows)+Main.playerPosition.y-(rows/2)).getImage((int)rowSize, (int)rowSize));
+        }
+        if (!onMenu) {
+            resetMovableSquares();
         }
 
         layeredPane.moveToFront(panel);
@@ -302,11 +311,13 @@ public class Gui extends JFrame {
             actionListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    myBtns[finalIndex].addActionListener(actionListener);
-                    System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
-                    System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
-                    movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)));
-                    System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
+                    if (((JButton)e.getSource()).getBorder().equals(btnBorder)) {
+                        myBtns[finalIndex].addActionListener(actionListener);
+                        System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
+                        System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
+                        movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)));
+                        System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
+                    }
                 }
             };
             //myBtns[index].addActionListener(actionListener);
@@ -363,6 +374,30 @@ public class Gui extends JFrame {
         }*/
     }
 
+    public void getMovableSquares() {
+        MapHolder<Boolean, Byte> availableSquares = Main.player.getSquaresToMoveTo();
+        for (byte x = (byte)-64; x<63; x++) {
+            for (byte y = (byte)-64; y<63; y++) {
+                if (availableSquares.get(x, y)!=null) {
+                    System.out.println(x+", "+y);
+                    //if (x<rows && y<cols) {
+                    x+= (rows/2);
+                    y+= (cols/2);
+                        if (((y*rows) + (x%cols))<myBtns.length && ((y*rows) + (x%cols))>0) {
+                            myBtns[(y * rows) + (x % cols)].setBorder(btnBorder);
+                        }
+                    //}
+                }
+            }
+        }
+    }
+    public void resetMovableSquares() {
+        for (JButton btn: myBtns) {
+            btn.setBorder(null);
+        }
+        getMovableSquares();
+    }
+
 
     public static void createAndShowGui(String name) {
         Gui frame = new Gui(name);
@@ -377,6 +412,7 @@ public class Gui extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        //frame.getMovableSquares();
     }
 
 }

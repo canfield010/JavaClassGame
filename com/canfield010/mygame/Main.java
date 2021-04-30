@@ -31,10 +31,12 @@ public class Main {
     public static ArrayList<Farmland> farmland = new ArrayList<>();
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
+    public static Player player;// = new Player(gameSquares.get(0, 0));
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         backgroundSquares.setClass(MapSquare.class);
         gameSquares.setClass(MapSquare.class);
+        player = new Player(gameSquares.get(0, 0));
         //mySquares.setClass(MapSquare.class);
         backgroundSquares.set(10, 10, new MapSquare(new Dirt(), null, new Player(backgroundSquares.get(10, 10)), new FinalPoint(10, 10)));
         backgroundSquares.set(11, 11, new MapSquare(new Dirt(), null, null, new FinalPoint(11, 11)));
