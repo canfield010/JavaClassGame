@@ -105,13 +105,14 @@ public abstract class Actor {
             for (byte y = (byte)(-extendedRange); y<extendedRange; y++) {
                 byte finalX = x;
                 byte finalY = y;
-                System.out.println(x+", "+y);
-                if (squares.get(finalX, finalY)==null) break;
-                System.out.println("got one not null");
                 //System.out.println(x+", "+y);
+                if (squares.get(finalX, finalY)==null) continue;
+                //System.out.println("got one not null");
+                System.out.println(x+", "+y);
                 boolSquares.set(finalX, finalY, true);
 
                 if (extendedRange-movementRange>=squares.get(finalX, finalY)) {
+                    System.out.println("gonnaTraceEm!");
                     //if (rayTrace(squares, x, y)) {
                         //boolSquares.set(x, y, true);
                     //} else {
@@ -121,7 +122,9 @@ public abstract class Actor {
                     // I AM A GENIUS!!!!!!!!!!!!!!!!
                 }
             }
+            //System.out.println("almost out");
         }
+        System.out.println("exited");
 
 
         return boolSquares;
@@ -139,17 +142,25 @@ public abstract class Actor {
             newX = x;
             newY = y;
             while (!rayTrace(squares, newX, newY, endX, endY)) {
-                if (squares.get((byte)(newX + 1), newY) < squares.get(newX, newY)) {
-                    newX = (byte)(newX + 1);
+                if (squares.get((byte)(newX + 1), newY)!=null) {
+                    if (squares.get((byte) (newX + 1), newY) < squares.get(newX, newY)) {
+                        newX = (byte) (newX + 1);
+                    }
                 }
-                if (squares.get(newX, (byte)(newY + 1)) < squares.get(newX, newY)) {
-                    newY = (byte)(newY + 1);
+                if (squares.get(newX, (byte)(newY + 1))!=null) {
+                    if (squares.get(newX, (byte) (newY + 1)) < squares.get(newX, newY)) {
+                        newY = (byte) (newY + 1);
+                    }
                 }
-                if (squares.get((byte)(newX - 1), newY) < squares.get(newX, newY)) {
-                    newX = (byte)(newX - 1);
+                if (squares.get((byte)(newX - 1), newY)!=null) {
+                    if (squares.get((byte) (newX - 1), newY) < squares.get(newX, newY)) {
+                        newX = (byte) (newX - 1);
+                    }
                 }
-                if (squares.get(newX, (byte)(newY - 1)) < squares.get(newX, newY)) {
-                    newY = (byte)(newY - 1);
+                if (squares.get(newX, (byte)(newY - 1))!=null) {
+                    if (squares.get(newX, (byte) (newY - 1)) < squares.get(newX, newY)) {
+                        newY = (byte) (newY - 1);
+                    }
                 }
             }
 
