@@ -37,6 +37,7 @@ public abstract class Actor {
     }
 
     public void move(MapSquare mapSquare) {
+        mapSquare.occupant = null;
         this.squareOn = mapSquare;
     }
 
@@ -92,6 +93,7 @@ public abstract class Actor {
     public MapHolder<Boolean, Byte> getSquaresToMoveTo() {
         //System.out.println("actually though?");
         byte extendedRange = (byte)Math.floor(movementRange*1.42);
+        byte negativeExtendedRange = (byte)(-extendedRange);
         MapHolder<Byte, Byte> squares = new MapHolder<>();
         squares.setClass(Byte.class);
         squares.set((byte)0, (byte)0, extendedRange);
@@ -100,28 +102,59 @@ public abstract class Actor {
 
         MapHolder<Boolean, Byte> boolSquares = new MapHolder<>();
         boolSquares.setClass(boolean.class);
+        //System.out.println(squares.get((byte)(negativeExtendedRange+2), (byte)0));
+        /*for (byte x = negativeExtendedRange; x<extendedRange+1; x++) {
+            String string = "";
+            for (byte y = negativeExtendedRange; y<extendedRange+1; y++) {
+                string += squares.get(x, y);
+                if (x==-4 && y==-1) {
+                    string+=".";
+                }
+                string+=", ";
+            }
+            System.out.println(string);
+        }*/
 
-        for (byte x = (byte)(-extendedRange); x<extendedRange; x++) {
-            for (byte y = (byte)(-extendedRange); y<extendedRange; y++) {
-                byte finalX = x;
-                byte finalY = y;
-                System.out.println(x+", "+y);
-                if (squares.get(finalX, finalY)==null) break;
-                System.out.println("got one not null");
+        for (byte x = negativeExtendedRange; x<extendedRange+1; x++) {
+            //String string = "";
+            for (byte y = negativeExtendedRange; y<extendedRange+1; y++) {
                 //System.out.println(x+", "+y);
-                boolSquares.set(finalX, finalY, true);
+                //string += (squares.get(x, y))+", ";
+                //System.out.println(squares.get(x, y));
+                if (squares.get(x, y)==null) continue;
 
-                if (extendedRange-movementRange>=squares.get(finalX, finalY)) {
+                //System.out.println("got one not null");
+                //System.out.println(x+", "+y);
+                ////////////////////
+                boolSquares.set(x, y, true);
+                /////////////
+                //string += (boolSquares.get(x, y))+", ";
+
+
+                if (extendedRange-movementRange>=squares.get(x, y)) {
                     //if (rayTrace(squares, x, y)) {
                         //boolSquares.set(x, y, true);
                     //} else {
                         //boolSquares.set(x, y, false);
                     //}
-                    boolSquares.set(finalX, finalY, rayTraces(squares, finalX, finalY));
+                    boolSquares.set(x, y, rayTraces(squares, x, y));
                     // I AM A GENIUS!!!!!!!!!!!!!!!!
                 }
             }
+            //System.out.println(string);
         }
+
+        /*for (byte x = negativeExtendedRange; x<extendedRange+1; x++) {
+            String string = "";
+            for (byte y = negativeExtendedRange; y<extendedRange+1; y++) {
+                string += boolSquares.get(x, y);
+                if (x==-4 && y==-1) {
+                    string+=".";
+                }
+                string+=", ";
+            }
+            System.out.println(string);
+        }*/
 
 
         return boolSquares;
@@ -136,20 +169,45 @@ public abstract class Actor {
         path.add(new FinalPoint(0, 0));
 
         do {
+            //System.out.println("doing");
             newX = x;
             newY = y;
             while (!rayTrace(squares, newX, newY, endX, endY)) {
-                if (squares.get((byte)(newX + 1), newY) < squares.get(newX, newY)) {
-                    newX = (byte)(newX + 1);
+                //System.out.println(newX+", "+newY);
+                if (squares.get((byte)(newX + 1), newY)!=null) {
+                    //System.out.println("Trying num 1, x+1 has "+squares.get((byte)(x+1), y)+", and original has "+squares.get(x, y)+".");
+                    if (squares.get((byte) (newX + 1), newY) > squares.get(newX, newY)) {
+                        newX = (byte) (newX + 1);
+                        //System.out.println("in");
+                        break;
+                    }
                 }
-                if (squares.get(newX, (byte)(newY + 1)) < squares.get(newX, newY)) {
-                    newY = (byte)(newY + 1);
+                if (squares.get(newX, (byte)(newY+1))!=null) {
+                    //System.out.println("Trying num 2, y+1 has "+squares.get(x, (byte)(y+1))+", and original has "+squares.get(x, y)+".");
+                    if (squares.get(newX, (byte) (newY + 1)) > squares.get(newX, newY)) {
+                        //System.out.println("in");
+                        newY = (byte) (newY + 1);
+                        //System.out.println("in");
+                        break;
+                    }
                 }
-                if (squares.get((byte)(newX - 1), newY) < squares.get(newX, newY)) {
-                    newX = (byte)(newX - 1);
+                if (squares.get((byte)(newX - 1), newY)!=null) {
+                    //System.out.println("Trying num 3, x-1 has "+squares.get((byte)(x-1), y)+", and original has "+squares.get(x, y)+".");
+                    if (squares.get((byte) (newX - 1), newY) > squares.get(newX, newY)) {
+                        newX = (byte) (newX - 1);
+                        //System.out.println("in");
+                        break;
+                    }
                 }
-                if (squares.get(newX, (byte)(newY - 1)) < squares.get(newX, newY)) {
-                    newY = (byte)(newY - 1);
+                //System.out.println(newX+", "+newY+", "+squares.get(newX, (byte)(newY)));
+                //System.out.println(newX+", "+newY+", "+squares.get(newX, (byte)(newY-1)));
+                if (squares.get(newX, (byte)(newY-1))!=null) {
+                    //System.out.println("Trying num 4, y-1 has "+squares.get(x, (byte)(y-1))+", and original has "+squares.get(x, y)+".");
+                    if (squares.get(newX, (byte) (newY - 1)) > squares.get(newX, newY)) {
+                        newY = (byte) (newY - 1);
+                        //System.out.println("in");
+                        break;
+                    }
                 }
             }
 
@@ -168,9 +226,14 @@ public abstract class Actor {
 
         float pathLength = 0;
         for (int index = 0; index<path.size()-1; index++) {
-            pathLength += Math.sqrt((path.get(index).x*path.get(index).x) + (path.get(index).y*path.get(index).y));
+            int dx = path.get(index).x-path.get(index+1).x;
+            int dy = path.get(index).y-path.get(index+1).y;
+            pathLength += Math.sqrt((dx*dx) + (dy*dy));
         }
-        return pathLength <= movementRange;
+        //System.out.println(pathLength);
+        //System.out.println(movementRange);
+        //System.out.println("pathLength<movementRange: "+(pathLength<movementRange));
+        return pathLength < movementRange;
         // maybe Later I'll try just < and not <= because it could make nicer circles.
         // I just finished writing this, and I really think there's a good chance it won't work, but we will see!
     }
@@ -193,9 +256,9 @@ public abstract class Actor {
         double x = xStart + 0.5;
         double y = yStart + 0.5;
 
-        x += yLength/(width/2);
+        //x += yLength/(width/2);
         //xEnd += yLength/(width/2);
-        y += xLength/(width/2);
+        //y += xLength/(width/2);
         //yEnd += xLength/(width/2);
         int xPos = xStart;
         int yPos = yStart;
@@ -219,6 +282,7 @@ public abstract class Actor {
                 return false;
             }
         }
+        /*
         x = xStart + 0.5;
         y = yStart + 0.5;
         x -= yLength/width;
@@ -247,7 +311,7 @@ public abstract class Actor {
             if (squares.get((byte)xPos, (byte)yPos)==null) {
                 return false;
             }
-        }
+        }*/
 
 
         return true;

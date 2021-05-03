@@ -136,10 +136,10 @@ public class Gui extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (((JButton)e.getSource()).getBorder().equals(btnBorder)) {
-                        System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
-                        System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
+                        //System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
+                        //System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
                         movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
-                        System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
+                        //System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
                     }
                 }
             };
@@ -294,6 +294,7 @@ public class Gui extends JFrame {
         playerY = ((start.y-end.y)*((currentTime-t)/(distance*1000)))+start.y;*/
         Main.playerPosition.x = end.x;
         Main.playerPosition.y = end.y;
+        Main.player.squareOn = mapSquares.get(end.x, end.y);
         /*for (int index = 0; index<myBtns.length; index++) {
             int finalIndex = index;
             myBtns[index].setIcon(mapSquares.get((index/rows)+Main.playerPosition.x-(rows/2), (index%rows)+Main.playerPosition.y-cols/2).getImage((int)rowSize, (int)rowSize));
@@ -305,9 +306,9 @@ public class Gui extends JFrame {
             };
         }*/
         for (int index = 0; index<myBtns.length; index++) {
-            int finalIndex = index;
+            //int finalIndex = index;
             myBtns[index].setIcon(mapSquares.get((index/rows)+Main.playerPosition.x-(cols/2), (index%rows)+Main.playerPosition.y-(rows/2)).getImage((int)rowSize, (int)rowSize));
-            myBtns[index].removeActionListener(actionListener);
+            /*myBtns[index].removeActionListener(actionListener);
             actionListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -319,11 +320,11 @@ public class Gui extends JFrame {
                         System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
                     }
                 }
-            };
+            };*/
             //myBtns[index].addActionListener(actionListener);
         }
         //addButtonListeners();
-        System.out.println("done");
+        //System.out.println("done");
 
         //boolean changingPos = false;
         /*if (end.x>start.x) {
@@ -376,16 +377,26 @@ public class Gui extends JFrame {
 
     public void getMovableSquares() {
         MapHolder<Boolean, Byte> availableSquares = Main.player.getSquaresToMoveTo();
-        for (byte x = (byte)-64; x<63; x++) {
-            for (byte y = (byte)-64; y<63; y++) {
-                if (availableSquares.get(x, y)!=null) {
-                    System.out.println(x+", "+y);
+        /*for (byte x = -6; x<7; x++) {
+            String string = "";
+            for (byte y = -6; y<7;y++) {
+                string += availableSquares.get(x, y)+", ";
+            }
+            System.out.println(string);
+        }*/
+        for (byte x = (byte)-63; x<64; x++) {
+            for (byte y = (byte)-63; y<64; y++) {
+                //if (availableSquares.get(x, y)!=null) {
+                    //System.out.println("got one!");
+                //}
+                if (availableSquares.get(x, y)!=null && availableSquares.get(x, y)) {
+                    //System.out.println(x+", "+y);
                     //if (x<rows && y<cols) {
-                    x+= (rows/2);
-                    y+= (cols/2);
-                        if (((y*rows) + (x%cols))<myBtns.length && ((y*rows) + (x%cols))>0) {
-                            myBtns[(y * rows) + (x % cols)].setBorder(btnBorder);
-                        }
+                    int theX = x+(rows/2);
+                    int theY = y+(cols/2);
+                    if (((theY*rows) + (theX%rows))<myBtns.length && ((theY*rows) + (theX%rows))>=0) {
+                        myBtns[(theY * rows) + (theX % rows)].setBorder(btnBorder);
+                    }
                     //}
                 }
             }

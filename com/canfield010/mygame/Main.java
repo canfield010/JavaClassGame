@@ -20,6 +20,7 @@ public class Main {
     private static float growthToGo = 0;
     private static float dryingToGo = 0;
     public static final int PLANT_GROWTH_RATE = 10;
+    public static boolean testing = false;
     // default is 10.
 
     //private static final int VISION_SIZE = 256;

@@ -49,6 +49,7 @@ public class MapHolder<T, E extends Number> {
     }
 
     public T get(E x, E y) {// throws WrongClassException {
+
         // first bit acts as a sign indicator and a 1 means it's negative. First bit needs to be negated.
         //boolean firstTime = true;
 
@@ -56,8 +57,8 @@ public class MapHolder<T, E extends Number> {
         //int topInt = 0xF000_0000;
         //short topShort = (short)0xF000;
         //byte topByte = (byte)0xF0;
-
         String myClassName = x.getClass().getName();
+        //System.out.println("X: "+x);
         //Class<?> myClass = x.getClass();
         if (myClassName.equals(Long.class.getName())) {
             //return getSquare((long)x, (long)y);
