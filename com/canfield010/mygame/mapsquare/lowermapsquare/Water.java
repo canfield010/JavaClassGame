@@ -8,15 +8,15 @@ import java.awt.*;
 import java.io.File;
 
 public class Water extends LowerMapSquare {
-    public static final String imageLocation = "img/grass.png";
+    //public static final String imageLocation = "img/grass.png";
     public static Image image;
     public Water() {
-        super("Water");
+        super("Water", false);
     }
 
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/grass.png"));
+            image = ImageIO.read(new File("img/water.png"));
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -3,6 +3,7 @@ package com.canfield010.mygame.mapsquare.uppermapsquare.plant;
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 
+import java.awt.*;
 import java.io.File;
 
 public class Plant extends UpperMapSquare {
@@ -36,4 +37,8 @@ public class Plant extends UpperMapSquare {
         imageFile = new File("resources/"+name+growthStage+".png");
     }
 
+    @Override
+    public Image getImage() {
+        return null;
+    }
 }

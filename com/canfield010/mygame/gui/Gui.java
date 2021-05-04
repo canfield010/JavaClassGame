@@ -43,6 +43,14 @@ public class Gui extends JFrame {
         super(name);
     }
 
+    //enum InitialSquares {
+        //GRASS,
+        //TREE,
+        //WATER,
+        //STONE,
+        //STONE_WALL
+    //}
+
     private void initComponents() {
         this.setPreferredSize(new Dimension(STARTING_SCREEN_WIDTH, STARTING_SCREEN_HEIGHT));
         this.setLayout(new BorderLayout());
@@ -92,11 +100,15 @@ public class Gui extends JFrame {
         });
 
         playButton.addActionListener(e -> {
+            Main.initializeMap();
+            mapSquares = Main.mapSquares;
+            resetSizes(); // cuz I'm lazy and don't want to redraw here;
             onMenu = false;
             layeredPane.remove(panel);
             layeredPane.moveToFront(btnPanel);
             getMovableSquares();
-            System.out.println("Click 1");
+            //System.out.println("Click 1");
+            //System.out.println(mapSquares.get(0,0).occupant);
         });
         settingsButton.addActionListener(e -> {
             System.out.println("Click 2");
@@ -135,10 +147,12 @@ public class Gui extends JFrame {
             actionListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (((JButton)e.getSource()).getBorder().equals(btnBorder)) {
-                        //System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
+                    //if (((JButton)e.getSource()).getBorder().equals(btnBorder)) {
+                    if (btnBorder.equals(((JButton)e.getSource()).getBorder())) {
+                         //System.out.println((finalIndex / rows) + Main.playerPosition.x - (cols / 2) + ", " + ((finalIndex % rows) + Main.playerPosition.y - (rows / 2)) + ", " + rows);
                         //System.out.println(mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.x - (rows / 2)).lowerMapSquare.name);
                         movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                        getMovableSquares();
                         //System.out.println(Main.playerPosition.x + ", " + Main.playerPosition.y);
                     }
                 }
@@ -294,7 +308,13 @@ public class Gui extends JFrame {
         playerY = ((start.y-end.y)*((currentTime-t)/(distance*1000)))+start.y;*/
         Main.playerPosition.x = end.x;
         Main.playerPosition.y = end.y;
-        Main.player.squareOn = mapSquares.get(end.x, end.y);
+        //Main.player.squareOn = mapSquares.get(end.x, end.y);
+        Main.player.move(mapSquares.get(end.x, end.y));
+        //mapSquares.get(end.x, end.y).occupant = Main.player;
+        //mapSquares.get(end.x, end.y).setActor(Main.player);
+        //mapSquares.get(start.x, start.y).occupant = null;
+        //mapSquares.get(start.x, start.y).setActor(null);
+
         /*for (int index = 0; index<myBtns.length; index++) {
             int finalIndex = index;
             myBtns[index].setIcon(mapSquares.get((index/rows)+Main.playerPosition.x-(rows/2), (index%rows)+Main.playerPosition.y-cols/2).getImage((int)rowSize, (int)rowSize));

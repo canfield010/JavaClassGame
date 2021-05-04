@@ -11,7 +11,7 @@ public class WoodenPlanks extends LowerMapSquare {
     public static final String imageLocation = "img/grass.png";
     public static Image image;
     public WoodenPlanks() {
-        super("Wooden Planks");
+        super("Wooden Planks", true);
     }
 
     public static void setImage() {

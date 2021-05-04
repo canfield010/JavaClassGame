@@ -5,7 +5,13 @@ import com.canfield010.mygame.actors.Player;
 import com.canfield010.mygame.gui.Button;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.lowermapsquare.*;
+import com.canfield010.mygame.mapsquare.uppermapsquare.IronDoor;
 import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.WoodenDoor;
+import com.canfield010.mygame.mapsquare.uppermapsquare.plant.BlueberryBush;
+import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Carrot;
+import com.canfield010.mygame.mapsquare.uppermapsquare.plant.OakTree;
+import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Potato;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,12 +52,20 @@ public class MapSquare extends JButton {
         return upperMapSquare == null && occupant == null;
     }
     public static void initalizeImages() {
+        // lowerMapSquares:
         Dirt.setImage();
         Farmland.setImage();
         Grass.setImage();
         Lava.setImage();
         Water.setImage();
         WoodenPlanks.setImage();
+        // upperMapSquares:
+        IronDoor.setImage();
+        WoodenDoor.setImage();
+        BlueberryBush.setImage();
+        Carrot.setImage();
+        OakTree.setImage();
+        Potato.setImage();
         Player.setImage();
     }
 
@@ -78,6 +92,9 @@ public class MapSquare extends JButton {
             //System.out.println("It truly is null!");
         //}
         g2.drawImage(lowerMapSquare.getImage(), 0, 0, x, y, null);
+        if (upperMapSquare!=null) {
+            g2.drawImage(upperMapSquare.getImage(), 0, 0, x, y, null);
+        }
         if (occupant!=null) {
             g2.drawImage(occupant.getImage(), 0, 0, x, y, null);
             //g2.drawImage(new Grass().image, 0, 0, x, y, null);
@@ -86,7 +103,20 @@ public class MapSquare extends JButton {
         return new ImageIcon(bufferedImage);
     }
 
+    public void setActor(Actor actor) {
+        this.occupant = actor;
+    }
+
     public boolean canMoveTo() {
-        return true;
+        /*if (upperMapSquare!=null) {
+            return lowerMapSquare.canMoveThrough && upperMapSquare.canMoveThrough && occupant == null;
+        } else {
+            return lowerMapSquare.canMoveThrough && occupant == null;
+        }*/
+        if (upperMapSquare==null) {
+            return lowerMapSquare.canMoveThrough && occupant == null;
+        } else {
+            return lowerMapSquare.canMoveThrough && upperMapSquare.canMoveThrough && occupant == null;
+        }
     }
 }

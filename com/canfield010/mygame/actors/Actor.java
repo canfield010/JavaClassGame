@@ -37,8 +37,11 @@ public abstract class Actor {
     }
 
     public void move(MapSquare mapSquare) {
-        mapSquare.occupant = null;
+        if (squareOn!=null) {
+            squareOn.occupant = null;
+        }
         this.squareOn = mapSquare;
+        mapSquare.occupant = this;
     }
 
     public void tick() {
@@ -253,8 +256,10 @@ public abstract class Actor {
         double lengthXTraveled = 0.0;
         double lengthYTraveled = 0.0;
 
-        double x = xStart + 0.5;
-        double y = yStart + 0.5;
+        //double endX = 0.5;
+
+        double x = xStart;// + 0.5;
+        double y = yStart;// + 0.5;
 
         //x += yLength/(width/2);
         //xEnd += yLength/(width/2);
@@ -320,19 +325,23 @@ public abstract class Actor {
 
     private MapHolder<Byte, Byte> getAdjacentSquares(MapHolder<Byte, Byte> squares, byte depth, int x, int y) {
         if (depth>0) {
-            if (Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)<depth)) {
+            if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)<depth)) {
+                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
                 squares.set((byte)(x + 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x + 1, y);
             }
-            if (Main.gameSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))<depth)) {
+            if (Main.mapSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))<depth)) {
+                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
                 squares.set((byte)x, (byte)(y + 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y+1);
             }
-            if (Main.gameSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)<depth)) {
+            if (Main.mapSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)<depth)) {
+                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
                 squares.set((byte)(x - 1), (byte)y, (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x - 1, y);
             }
-            if (Main.gameSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))<depth)) {
+            if (Main.mapSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))<depth)) {
+                //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
                 squares.set((byte)x, (byte)(y - 1), (byte)(depth - 1));
                 getAdjacentSquares(squares, (byte)(depth-1), x, y - 1);
             }
@@ -357,22 +366,22 @@ public abstract class Actor {
                 boolean right = true;
                 for (FinalPoint point: path) {
                     if (up) {
-                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
+                        if (!Main.mapSquares.get(point.x, point.y+1).canMoveTo()) {
                             up = false;
                         }
                     }
                     if (down) {
-                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
+                        if (!Main.mapSquares.get(point.x, point.y+1).canMoveTo()) {
                             down = false;
                         }
                     }
                     if (left) {
-                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
+                        if (!Main.mapSquares.get(point.x, point.y+1).canMoveTo()) {
                             left = false;
                         }
                     }
                     if (right) {
-                        if (!Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
+                        if (!Main.mapSquares.get(point.x, point.y+1).canMoveTo()) {
                             right = false;
                         }
                     }
@@ -380,7 +389,7 @@ public abstract class Actor {
                 }
                 FinalPoint point = path.get(path.size()-1);
                 if (up) {
-                    if (Main.gameSquares.get(point.x, point.y+1).canMoveTo()) {
+                    if (Main.mapSquares.get(point.x, point.y+1).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x, point.y+1);
                         newList.add(newPoint);
@@ -397,7 +406,7 @@ public abstract class Actor {
                     }
                 }
                 if (down) {
-                    if (Main.gameSquares.get(point.x, point.y-1).canMoveTo()) {
+                    if (Main.mapSquares.get(point.x, point.y-1).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x, point.y-1);
                         newList.add(newPoint);
@@ -414,7 +423,7 @@ public abstract class Actor {
                     }
                 }
                 if (left) {
-                    if (Main.gameSquares.get(point.x-1, point.y).canMoveTo()) {
+                    if (Main.mapSquares.get(point.x-1, point.y).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x-1, point.y);
                         newList.add(newPoint);
@@ -431,7 +440,7 @@ public abstract class Actor {
                     }
                 }
                 if (right) {
-                    if (Main.gameSquares.get(point.x+1, point.y).canMoveTo()) {
+                    if (Main.mapSquares.get(point.x+1, point.y).canMoveTo()) {
                         ArrayList<Point> newList = (ArrayList)path.clone();
                         Point newPoint = new Point(point.x+1, point.y);
                         newList.add(newPoint);

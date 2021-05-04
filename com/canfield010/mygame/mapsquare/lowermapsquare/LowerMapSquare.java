@@ -12,8 +12,11 @@ import java.io.IOException;
 public abstract class LowerMapSquare {
     public String name;
 
-    public LowerMapSquare(String name) {
+    public boolean canMoveThrough;
+
+    public LowerMapSquare(String name, boolean canMoveThrough) {
         this.name = name;
+        this.canMoveThrough = canMoveThrough;
     }
 
     public abstract Image getImage();

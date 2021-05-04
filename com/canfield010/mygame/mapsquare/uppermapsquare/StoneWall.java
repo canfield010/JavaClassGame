@@ -1,29 +1,27 @@
-package com.canfield010.mygame.mapsquare.lowermapsquare;
-
-import com.canfield010.mygame.mapsquare.MapSquare;
+package com.canfield010.mygame.mapsquare.uppermapsquare;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class Dirt extends LowerMapSquare{
+public class StoneWall extends UpperMapSquare {
 
     public static Image image;
 
-    public Dirt() {
-        super("Dirt", true);
+    public StoneWall() {
+        super("Stone Wall", false);
     }
 
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/dirt.png"));
+            image = ImageIO.read(new File("img/stoneWall.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+
+    @Override
     public Image getImage() {
         return image;
-    };
-
+    }
 }

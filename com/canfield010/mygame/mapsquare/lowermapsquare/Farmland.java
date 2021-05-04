@@ -15,7 +15,7 @@ public class Farmland extends LowerMapSquare {
     public static Image image;
 
     public Farmland() {
-        super("Farmland");
+        super("Farmland", true);
         Main.farmland.add(this);
     }
 

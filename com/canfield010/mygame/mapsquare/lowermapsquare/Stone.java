@@ -1,22 +1,20 @@
 package com.canfield010.mygame.mapsquare.lowermapsquare;
 
-import com.canfield010.mygame.mapsquare.MapSquare;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class Lava extends LowerMapSquare {
-    public static final String imageLocation = "img/grass.png";
+public class Stone extends LowerMapSquare{
+
     public static Image image;
-    public Lava() {
-        super("Lava", false);
+
+    public Stone() {
+        super("Stone", true);
     }
 
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/grass.png"));
+            image = ImageIO.read(new File("img/stone.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -24,4 +22,5 @@ public class Lava extends LowerMapSquare {
     public Image getImage() {
         return image;
     };
+
 }

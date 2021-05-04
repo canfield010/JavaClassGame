@@ -11,7 +11,7 @@ public class Grass extends LowerMapSquare {
     public static final String imageLocation = "img/grass.png";
     public static Image image;
     public Grass() {
-        super("Grass");
+        super("Grass", true);
         //this.imageLocation = "img/grass.png";
     }
 
