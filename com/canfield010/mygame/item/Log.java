@@ -25,7 +25,7 @@ public class Log extends Item {
     }
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/grass.png"));
+            image = ImageIO.read(new File("img/log.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
