@@ -6,6 +6,7 @@ import com.canfield010.mygame.gui.Button;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.lowermapsquare.*;
 import com.canfield010.mygame.mapsquare.uppermapsquare.IronDoor;
+import com.canfield010.mygame.mapsquare.uppermapsquare.StoneWall;
 import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
 import com.canfield010.mygame.mapsquare.uppermapsquare.WoodenDoor;
 import com.canfield010.mygame.mapsquare.uppermapsquare.plant.BlueberryBush;
@@ -25,7 +26,7 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class MapSquare extends JButton {
+public class MapSquare{
 
     public FinalPoint coordinates;
     public LowerMapSquare lowerMapSquare;
@@ -59,6 +60,7 @@ public class MapSquare extends JButton {
         Lava.setImage();
         Water.setImage();
         WoodenPlanks.setImage();
+        Stone.setImage();
         // upperMapSquares:
         IronDoor.setImage();
         WoodenDoor.setImage();
@@ -67,6 +69,7 @@ public class MapSquare extends JButton {
         OakTree.setImage();
         Potato.setImage();
         Player.setImage();
+        StoneWall.setImage();
     }
 
     public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {

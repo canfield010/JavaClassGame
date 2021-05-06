@@ -2,12 +2,33 @@ package com.canfield010.mygame;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.actors.Player;
+import com.canfield010.mygame.item.*;
+import com.canfield010.mygame.item.armor.boots.IronBoots;
+import com.canfield010.mygame.item.armor.boots.LeatherBoots;
+import com.canfield010.mygame.item.armor.boots.RustyIronBoots;
+import com.canfield010.mygame.item.armor.chestplate.IronChestplate;
+import com.canfield010.mygame.item.armor.chestplate.LeatherChestplate;
+import com.canfield010.mygame.item.armor.chestplate.RustyIronChestplate;
+import com.canfield010.mygame.item.armor.helmet.IronHelmet;
+import com.canfield010.mygame.item.armor.helmet.LeatherHelmet;
+import com.canfield010.mygame.item.armor.helmet.RustyIronHelmet;
+import com.canfield010.mygame.item.armor.leggings.IronLeggings;
+import com.canfield010.mygame.item.armor.leggings.LeatherLeggings;
+import com.canfield010.mygame.item.armor.leggings.RustyIronLeggings;
+import com.canfield010.mygame.item.food.Blueberries;
+import com.canfield010.mygame.item.food.Carrot;
+import com.canfield010.mygame.item.food.Potato;
+import com.canfield010.mygame.item.food.Steak;
+import com.canfield010.mygame.item.tool.Axe;
+import com.canfield010.mygame.item.tool.Key;
+import com.canfield010.mygame.item.tool.Pickaxe;
+import com.canfield010.mygame.item.weapon.IronSword;
+import com.canfield010.mygame.item.weapon.RustyIronSword;
+import com.canfield010.mygame.item.weapon.SharpenedStick;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.gui.Gui;
-import com.canfield010.mygame.mapsquare.lowermapsquare.Dirt;
-import com.canfield010.mygame.mapsquare.lowermapsquare.Farmland;
-import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
-import com.canfield010.mygame.mapsquare.lowermapsquare.Water;
+import com.canfield010.mygame.mapsquare.lowermapsquare.*;
+import com.canfield010.mygame.mapsquare.uppermapsquare.StoneWall;
 import com.canfield010.mygame.mapsquare.uppermapsquare.plant.OakTree;
 import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Plant;
 import com.canfield010.mygame.mapsquare.MapSquare;
@@ -41,30 +62,30 @@ public class Main {
     //public static InitialSquares[][] initialSquares = {
     public static byte[][] initialSquares = {
             //{InitialSquares.GRASS, },
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
-            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+            {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,3,3,4,3,3,3,4,3,3,3,3,3,3,3,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,4,3,4,3,4,3,4,4,4,4,4,4,4,4,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,3,3,4,3,3,3,4,3,3,3,3,3,3,3,4,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,4,4,4,4,4,4,4,3,4,4,4,4,4,3,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,3,3,3,3,3,3,3,3,3,3,4,4,4,3,3,3,3,3,4,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,4,4,4,4,4,4,4,4,3,4,3,4,4,4,4,4,4,4,3,4,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+            {4,4,3,3,3,4,3,3,3,4,3,3,3,4,3,3,3,3,3,4,3,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,4,4,3,4,4,4,3,4,3,4,4,4,4,4,4,4,3,4,3,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,4,3,3,3,3,3,4,3,3,3,3,3,4,3,3,3,4,3,4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
+            {4,4,3,4,3,4,3,4,3,4,4,4,4,4,4,4,3,4,4,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
+            {4,4,3,3,3,4,3,4,3,3,3,3,3,3,3,4,3,4,3,3,3,4,3,4,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,4,4,4,4,3,4,4,4,3,4,4,4,3,4,3,4,3,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,3,3,3,3,4,3,3,3,3,3,4,3,3,3,4,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+            {4,4,3,4,4,4,4,4,3,4,3,4,3,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,3,3,3,3,4,3,4,3,4,3,3,3,3,3,4,3,3,3,4,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,4,4,4,4,4,3,4,3,4,3,4,4,4,3,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,3,4,3,3,3,3,3,4,3,4,3,3,3,4,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,4,4,3,4,4,4,4,4,3,4,4,4,3,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+            {4,4,3,3,3,4,3,4,3,3,3,4,3,4,3,3,3,4,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,4,4,3,4,3,4,4,4,3,4,3,4,3,4,4,4,3,4,4,4,3,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,3,3,4,3,3,3,3,3,4,3,3,3,3,3,3,3,4,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -112,6 +133,7 @@ public class Main {
         gameSquares.setClass(MapSquare.class);
         mapSquares = gameSquares;
         player = new Player(mapSquares.get(0, 0));
+        player.inventory.axe = new Axe();
         player.move(mapSquares.get(0, 0));
         mapSquares.set(0, 0, new MapSquare(new Grass(), null, player, new FinalPoint(0,0)));
         //mySquares.setClass(MapSquare.class);
@@ -127,12 +149,44 @@ public class Main {
         //}
         //System.out.println(mySquares.get((byte)10, (byte)10).lowerMapSquare.name);
 
+        Backpack.setImage();
+        Coal.setImage();
+        HealingStone.setImage();
+        IronOre.setImage();
+        Log.setImage();
+        ProtectionRing.setImage();
+        RawBeef.setImage();
+        Rock.setImage();
+        SmallBackpack.setImage();
+        IronSword.setImage();
+        RustyIronSword.setImage();
+        SharpenedStick.setImage();
+        Axe.setImage();
+        Key.setImage();
+        Pickaxe.setImage();
+        Blueberries.setImage();
+        Carrot.setImage();
+        Potato.setImage();
+        Steak.setImage();
+        IronBoots.setImage();
+        LeatherBoots.setImage();
+        RustyIronBoots.setImage();
+        IronChestplate.setImage();
+        LeatherChestplate.setImage();
+        RustyIronChestplate.setImage();
+        IronHelmet.setImage();
+        LeatherHelmet.setImage();
+        RustyIronHelmet.setImage();
+        IronLeggings.setImage();
+        LeatherLeggings.setImage();
+        RustyIronLeggings.setImage();
+
         UIManager.setLookAndFeel(new javax.swing.plaf.nimbus.NimbusLookAndFeel());
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Gui.createAndShowGui("testing testing 123");
+                Gui.createAndShowGui("MyGame");
             }
         });
 
@@ -212,11 +266,19 @@ public class Main {
             for (int y = 0; y<initialSquares[x].length; y++) {
                 int posX = x-(initialSquares.length/2);
                 int posY = y-(initialSquares[x].length/2);
-                if (posX!=0 && posY!=0) {
+                //if (posX<1) {
+                    //posX++;
+                //}
+                //if (posY<1) {
+                    //posY++;
+                //}
+                if (posX!=0 || posY!=0) {
                     switch (initialSquares[x][y]) {
                         case 0 -> mapSquares.set(posX, posY, new MapSquare(new Grass(), null, null, new FinalPoint(posX, posY)));
                         case 1 -> mapSquares.set(posX, posY, new MapSquare(new Grass(), new OakTree(), null, new FinalPoint(posX, posY)));
                         case 2 -> mapSquares.set(posX, posY, new MapSquare(new Water(), null, null, new FinalPoint(posX, posY)));
+                        case 3 -> mapSquares.set(posX, posY, new MapSquare(new Stone(), null, null, new FinalPoint(posX, posY)));
+                        case 4 -> mapSquares.set(posX, posY, new MapSquare(new Stone(), new StoneWall(), null, new FinalPoint(posX, posY)));
                     }
                 }
             }

@@ -7,6 +7,8 @@ import com.canfield010.mygame.item.ProtectionRing;
 import com.canfield010.mygame.item.armor.Armor;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
+import com.canfield010.mygame.mapsquare.lowermapsquare.Grass;
+import com.canfield010.mygame.mapsquare.lowermapsquare.Water;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,13 +16,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 public abstract class Actor {
-    public Inventory inventory;
+    public Inventory inventory = new Inventory();
     public int health = 20;
     public int maxHealth = 20;
     public double width = 0.5;
     public byte movementRange;
     public String name;
     public MapSquare squareOn;
+    MapHolder<Byte, Byte> squares;
 
     public Actor(String name, byte movementRange, MapSquare squareOn) {
         this.name = name;
@@ -97,10 +100,11 @@ public abstract class Actor {
         //System.out.println("actually though?");
         byte extendedRange = (byte)Math.floor(movementRange*1.42);
         byte negativeExtendedRange = (byte)(-extendedRange);
-        MapHolder<Byte, Byte> squares = new MapHolder<>();
+        squares = new MapHolder<>();
         squares.setClass(Byte.class);
         squares.set((byte)0, (byte)0, extendedRange);
-        squares = getAdjacentSquares(squares, extendedRange, 0, 0);
+        //squares = getAdjacentSquares(squares, extendedRange, 0, 0);
+        getAdjacentSquares(extendedRange, 0, 0);
         //System.out.println(squares.get((byte)0, (byte)0));
 
         MapHolder<Boolean, Byte> boolSquares = new MapHolder<>();
@@ -323,30 +327,60 @@ public abstract class Actor {
         // I think this looks good, but there's no way this works first try.
     }
 
-    private MapHolder<Byte, Byte> getAdjacentSquares(MapHolder<Byte, Byte> squares, byte depth, int x, int y) {
+    //private MapHolder<Byte, Byte> getAdjacentSquares(MapHolder<Byte, Byte> squares, byte depth, int x, int y) {
+    private void getAdjacentSquares(byte depth, int x, int y) {
         if (depth>0) {
-            if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)<depth)) {
-                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
-                squares.set((byte)(x + 1), (byte)y, (byte)(depth - 1));
-                getAdjacentSquares(squares, (byte)(depth-1), x + 1, y);
+            if (Main.mapSquares.get(x + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare instanceof Water && Main.mapSquares.get(x + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare.canMoveThrough) {
+                System.out.println("WFT??!?");
             }
-            if (Main.mapSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))<depth)) {
-                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
-                squares.set((byte)x, (byte)(y + 1), (byte)(depth - 1));
-                getAdjacentSquares(squares, (byte)(depth-1), x, y+1);
+            if (Main.mapSquares.get(x + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare instanceof  Water) {
+                System.out.println("got wet here");
+                System.out.println(squareOn.lowerMapSquare);
+            }// else {
+                //System.out.println(x+", "+y);
+            //}
+            if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare instanceof Water) {
+                //System.out.println("got wet");
             }
-            if (Main.mapSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)<depth)) {
-                //System.out.println(Main.gameSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
-                squares.set((byte)(x - 1), (byte)y, (byte)(depth - 1));
-                getAdjacentSquares(squares, (byte)(depth-1), x - 1, y);
-            }
-            if (Main.mapSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))<depth)) {
-                //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
-                squares.set((byte)x, (byte)(y - 1), (byte)(depth - 1));
-                getAdjacentSquares(squares, (byte)(depth-1), x, y - 1);
-            }
+            //System.out.println(Main.mapSquares.get(x + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare.canMoveThrough);
+            //if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x + 1), (byte)y) == null || squares.get((byte)(x + 1), (byte)y)<depth)) {
+            //if ((Main.mapSquares.get(x + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo())) {
+                if ((squares.get((byte) (x + 1), (byte) y) == null || squares.get((byte) (x + 1), (byte) y) < depth)) {
+                    //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
+                    if (Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo()) {
+                        squares.set((byte) (x + 1), (byte) y, (byte) (depth - 1));
+                        getAdjacentSquares((byte) (depth - 1), x + 1, y);
+                    } else {
+                        //System.out.println("got wet here");
+                    }
+                }
+                //if (Main.mapSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y + 1)) == null || squares.get((byte)x, (byte)(y + 1))<depth)) {
+                if ((squares.get((byte) x, (byte) (y + 1)) == null || squares.get((byte) x, (byte) (y + 1)) < depth)) {
+                    //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
+                    if (Main.mapSquares.get(x + squareOn.coordinates.x, y + 1 + squareOn.coordinates.y).canMoveTo()) {
+                        squares.set((byte) x, (byte) (y + 1), (byte) (depth - 1));
+                        getAdjacentSquares((byte) (depth - 1), x, y + 1);
+                    }
+                }
+                //if (Main.mapSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)(x - 1), (byte)y) == null || squares.get((byte)(x - 1), (byte)y)<depth)) {
+                if ((squares.get((byte) (x - 1), (byte) y) == null || squares.get((byte) (x - 1), (byte) y) < depth)) {
+                    //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
+                    if (Main.mapSquares.get(x - 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).canMoveTo()) {
+                        squares.set((byte) (x - 1), (byte) y, (byte) (depth - 1));
+                        getAdjacentSquares((byte) (depth - 1), x - 1, y);
+                    }
+                }
+                //if (Main.mapSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo() && (squares.get((byte)x, (byte)(y - 1)) == null || squares.get((byte)x, (byte)(y - 1))<depth)) {
+                if ((squares.get((byte) x, (byte) (y - 1)) == null || squares.get((byte) x, (byte) (y - 1)) < depth)) {
+                    //System.out.println(Main.mapSquares.get(x + 1 + squareOn.coordinates.x, y + squareOn.coordinates.y).lowerMapSquare);
+                    if (Main.mapSquares.get(x + squareOn.coordinates.x, y - 1 + squareOn.coordinates.y).canMoveTo()) {
+                        squares.set((byte) x, (byte) (y - 1), (byte) (depth - 1));
+                        getAdjacentSquares((byte) (depth - 1), x, y - 1);
+                    }
+                }
+            //}
         }
-        return squares;
+        //return squares;
     }
 
     public static ArrayList<Point> getPath(FinalPoint start, FinalPoint end, byte length) {

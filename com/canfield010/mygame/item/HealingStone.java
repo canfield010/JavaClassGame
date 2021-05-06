@@ -2,7 +2,13 @@ package com.canfield010.mygame.item;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+
 public class HealingStone extends Item {
+
+    public static Image image;
 
     public byte coolDown = 0;
 
@@ -20,4 +26,15 @@ public class HealingStone extends Item {
     public boolean isUseful(MapSquare square) {
         return false;
     }
+
+    public static void setImage() {
+        try {
+            image = ImageIO.read(new File("img/grass.png"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public Image getImage() {
+        return image;
+    };
 }

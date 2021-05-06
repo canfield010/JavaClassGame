@@ -2,6 +2,8 @@ package com.canfield010.mygame.item;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import java.awt.*;
+
 public abstract class Item {
     public byte count;
     public final byte maximumCount;
@@ -13,4 +15,5 @@ public abstract class Item {
     }
     public abstract void use(MapSquare square);
     public abstract boolean isUseful(MapSquare square);
+    public abstract Image getImage();
 }

@@ -2,7 +2,13 @@ package com.canfield010.mygame.item.weapon;
 
 import com.canfield010.mygame.mapsquare.MapSquare;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+
 public class SharpenedStick extends Weapon {
+
+    public static Image image;
 
     //private final int maxDamage = 3;
     //private final int minDamage = 2;
@@ -24,4 +30,15 @@ public class SharpenedStick extends Weapon {
     public boolean isUseful(MapSquare square) {
         return !(square.occupant==null);
     }
+
+    public static void setImage() {
+        try {
+            image = ImageIO.read(new File("img/grass.png"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public Image getImage() {
+        return image;
+    };
 }
