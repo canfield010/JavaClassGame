@@ -5,6 +5,7 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.util.Random;
 
 public class RustyIronSword extends Weapon {
 
@@ -17,12 +18,12 @@ public class RustyIronSword extends Weapon {
         super("Rusty Iron Sword", 8, 5);
     }
 
-    /*@Override
+    @Override
     public void use(MapSquare square) {
-        square.actor.damage(
+        square.occupant.damage(
                 new Random().nextInt(maxDamage - minDamage) + minDamage
         );
-    }*/
+    }
 
     @Override
     public boolean isUseful(MapSquare square) {

@@ -7,17 +7,17 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 
-public class Carrot extends Eatable {
+public class PotatoItem extends Eatable {
 
     public static Image image;
 
-    public Carrot() {
+    public PotatoItem() {
         super("Carrot", 2);
     }
 
     @Override
     public void use(MapSquare square) {
-        square.upperMapSquare = new com.canfield010.mygame.mapsquare.uppermapsquare.plant.Carrot();
+        square.upperMapSquare = new com.canfield010.mygame.mapsquare.uppermapsquare.plant.Potato();
         this.count--;
     }
 

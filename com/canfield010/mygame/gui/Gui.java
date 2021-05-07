@@ -6,6 +6,7 @@ import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.actors.Villager;
 import com.canfield010.mygame.item.Log;
 import com.canfield010.mygame.item.tool.Axe;
+import com.canfield010.mygame.item.weapon.IronSword;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
 import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
@@ -43,7 +44,9 @@ public class Gui extends JFrame {
     JPanel panel = new JPanel();
     JPanel buttonPanel = new JPanel();
     JPanel inventoryPanel = new JPanel();
-    JOptionPane inventoryPane = new JOptionPane();
+    JPanel hud = new JPanel();
+    JLabel healthBar = new JLabel();
+    //JOptionPane inventoryPane = new JOptionPane();
 
 
     private Gui(String name) {
@@ -88,6 +91,10 @@ public class Gui extends JFrame {
         // OMG it took me SO LONG to find this!!! Here's the solution:
         buttonPanel.setOpaque(false);
         //inventoryPanel.setOpaque(false);
+        hud.setOpaque(false);
+        hud.setLayout(new BoxLayout(hud, BoxLayout.PAGE_AXIS));
+        hud.add(healthBar);
+        healthBar.setText(Main.player.health+" health");
         panel.setOpaque(false);
         panel.setLayout(new GridBagLayout());
         //inventoryPanel.setLayout(new GridLayout(3,8));
@@ -115,6 +122,13 @@ public class Gui extends JFrame {
             onMenu = false;
             layeredPane.remove(panel);
             layeredPane.moveToFront(btnPanel);
+            layeredPane.moveToFront(hud);
+            healthBar.setText(Main.player.health+" health");
+            if (Main.player.health<=0) {
+                hud.setOpaque(true);
+                hud.setBackground(Color.RED);
+                hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+            }
             getMovableSquares();
             //System.out.println("Click 1");
             //System.out.println(mapSquares.get(0,0).occupant);
@@ -177,6 +191,13 @@ public class Gui extends JFrame {
                                 if (btnBorder.equals(((JButton) e.getSource()).getBorder())) {
                                     movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
                                     resetMovableSquares();
+                                    Main.tickActors();
+                                }
+                                healthBar.setText(Main.player.health+" health");
+                                if (Main.player.health<=0) {
+                                    hud.setOpaque(true);
+                                    hud.setBackground(Color.RED);
+                                    hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
                                 }
                             });
 
@@ -225,16 +246,36 @@ public class Gui extends JFrame {
                                         } else {
                                             Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).occupant.damage(Math.random() > 0.5 ? 1 : 2);
                                         }
+                                        Main.tickActors();
+                                        healthBar.setText(Main.player.health+" health");
+                                        if (Main.player.health<=0) {
+                                            hud.setOpaque(true);
+                                            hud.setBackground(Color.RED);
+                                            hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                                        }
                                     });
                                     case USE_ITEM -> popupMenu.add(new JMenuItem("Use Item")).addActionListener(event -> {
                                         loadInventory(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
                                         layeredPane.add(inventoryPanel);
                                         layeredPane.moveToFront(inventoryPanel);
+                                        healthBar.setText(Main.player.health+" health");
+                                        if (Main.player.health<=0) {
+                                            hud.setOpaque(true);
+                                            hud.setBackground(Color.RED);
+                                            hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                                        }
                                     });
                                     case SHOOT -> {
                                         if (Main.player.inventory.rangedWeapon!=null) {
                                             popupMenu.add(new JMenuItem("Shoot")).addActionListener(event -> {
                                                 Main.player.inventory.rangedWeapon.use(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                                Main.tickActors();
+                                                healthBar.setText(Main.player.health+" health");
+                                                if (Main.player.health<=0) {
+                                                    hud.setOpaque(true);
+                                                    hud.setBackground(Color.RED);
+                                                    hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                                                }
                                             });
                                         }
                                     }
@@ -242,6 +283,12 @@ public class Gui extends JFrame {
                                         loadInventoryTrades(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
                                         layeredPane.add(inventoryPanel);
                                         layeredPane.moveToFront(inventoryPanel);
+                                        healthBar.setText(Main.player.health+" health");
+                                        if (Main.player.health<=0) {
+                                            hud.setOpaque(true);
+                                            hud.setBackground(Color.RED);
+                                            hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                                        }
                                     });
                                 }
                             }
@@ -281,7 +328,14 @@ public class Gui extends JFrame {
                         if (btnBorder.equals(((JButton)e.getSource()).getBorder())) {
                             movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
                             resetMovableSquares();
+                            Main.tickActors();
                         }
+                    }
+                    healthBar.setText(Main.player.health+" health");
+                    if (Main.player.health<=0) {
+                        hud.setOpaque(true);
+                        hud.setBackground(Color.RED);
+                        hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
                     }
                 }
             };
@@ -294,8 +348,9 @@ public class Gui extends JFrame {
         buttonPanel.add(playButton);
         buttonPanel.add(settingsButton);
         panel.add(buttonPanel);
-        layeredPane.add(btnPanel, 0, 1);
+        layeredPane.add(btnPanel, 0, 2);
         layeredPane.add(panel, 0, 0);
+        layeredPane.add(hud, 0, 1);
         this.add(layeredPane, BorderLayout.CENTER);
     }
 
@@ -305,6 +360,7 @@ public class Gui extends JFrame {
     private void resetSizes() {
         btnPanel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         panel.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        hud.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         inventoryPanel.setBounds(layeredPane.getWidth()/10, layeredPane.getHeight()/10, layeredPane.getWidth()-(layeredPane.getWidth()/5), layeredPane.getHeight()-(layeredPane.getHeight()/5));
         double rowPerColumn = (double)layeredPane.getWidth()/(double)layeredPane.getHeight();
         double columnsPerRow = (double)layeredPane.getHeight()/(double)layeredPane.getWidth();
@@ -344,6 +400,14 @@ public class Gui extends JFrame {
             resetMovableSquares();
         }
 
+        healthBar.setText(Main.player.health+" health");
+        if (Main.player.health<=0) {
+            hud.setOpaque(true);
+            hud.setBackground(Color.RED);
+            hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+        }
+
+        layeredPane.moveToFront(hud);
         layeredPane.moveToFront(panel);
     }
 
@@ -583,6 +647,7 @@ public class Gui extends JFrame {
                     }
                     //layeredPane.moveToFront(btnPanel);
                     resetSizes();
+                    Main.tickActors();
                 });
                 btn.setBorder(btnBorder);
             }
@@ -685,6 +750,14 @@ public class Gui extends JFrame {
                         }
                     }
                     layeredPane.moveToFront(btnPanel);
+                    layeredPane.moveToFront(hud);
+                    healthBar.setText(Main.player.health+" health");
+                    if (Main.player.health<=0) {
+                        hud.setOpaque(true);
+                        hud.setBackground(Color.RED);
+                        hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                    }
+                    Main.tickActors();
                 });
                 try {
                     btn.setIcon(new ImageIcon(ImageIO.read(new File("img/bigX.png")).getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST)));
@@ -707,8 +780,10 @@ public class Gui extends JFrame {
                         BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
                         Graphics2D graphics = (Graphics2D) image.getGraphics();
                         graphics.setColor(Color.BLACK);
-                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, null);
-                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/3)-((inventoryPanel.getHeight()/3)/5));
+                        if (Main.player.inventory.storage[index-11]!=null) {
+                            graphics.drawImage(Main.player.inventory.storage[index - 11].getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 3, null);
+                            graphics.drawString(String.valueOf(Main.player.inventory.storage[index - 11].count), (inventoryPanel.getWidth() / 9) - ((inventoryPanel.getWidth() / 9) / 5), (inventoryPanel.getHeight() / 3) - ((inventoryPanel.getHeight() / 3) / 5));
+                        }
 
                         graphics.dispose();
                         btn.setIcon(new ImageIcon(image));
@@ -735,8 +810,11 @@ public class Gui extends JFrame {
                         BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
                         Graphics2D graphics = (Graphics2D) image.getGraphics();
                         graphics.setColor(Color.BLACK);
-                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, null);
-                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/3)-((inventoryPanel.getHeight()/3)/5));
+                        if (Main.player.inventory.storage[index-11]!=null) {
+                            graphics.drawImage(Main.player.inventory.storage[index - 11].getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 3, null);
+                            graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/3)-((inventoryPanel.getHeight()/3)/5));
+                        }
+                        //graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/3)-((inventoryPanel.getHeight()/3)/5));
 
                         graphics.dispose();
                         btn.setIcon(new ImageIcon(image));
@@ -793,7 +871,7 @@ public class Gui extends JFrame {
         BufferedImage myImage = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
         Graphics2D myGraphics = (Graphics2D) myImage.getGraphics();
         myGraphics.setColor(Color.BLACK);
-        myGraphics.drawImage(((Villager)square.occupant).itemToSell.getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+        myGraphics.drawImage(((Villager)square.occupant).itemToSell.getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 8, null);
         myGraphics.drawString(((Villager)square.occupant).cost + " coins", (int)((inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/1.5)), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
 
         myGraphics.dispose();
@@ -881,7 +959,29 @@ public class Gui extends JFrame {
         btn = new JButton();
         inventoryPanel.add(btn);
         btn.setOpaque(false);
-        btn.setVisible(false);
+        myImage = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+        myGraphics = (Graphics2D) myImage.getGraphics();
+        myGraphics.setColor(Color.BLACK);
+        myGraphics.drawImage(IronSword.image, 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 8, null);
+        myGraphics.drawString(((Villager)square.occupant).swordCost + " coins", (int)((inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/1.5)), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+        myGraphics.dispose();
+        btn.setIcon(new ImageIcon(myImage));
+        //System.out.println(Main.player.inventory.axe + ", " + Main.player.inventory.coins + ", " + ((Villager)square.occupant).cost);
+        if (Main.player.inventory.meleeWeapon==null && Main.player.inventory.coins>=((Villager)square.occupant).swordCost) {
+            btn.setBorder(btnBorder);
+            btn.addActionListener(e -> {
+                //System.out.println("buying");
+                Main.player.inventory.coins-=((Villager)square.occupant).swordCost;
+                Main.player.inventory.meleeWeapon = new IronSword();
+                layeredPane.remove(inventoryPanel);
+                loadInventoryTrades(square);
+                layeredPane.add(inventoryPanel);
+                layeredPane.moveToFront(inventoryPanel);
+
+            });
+        }
+
         for (int i = 0; i<9; i++) {
             btn = new JButton();
             inventoryPanel.add(btn);
@@ -1008,6 +1108,14 @@ public class Gui extends JFrame {
                         }
                     }
                     layeredPane.moveToFront(btnPanel);
+                    layeredPane.moveToFront(hud);
+                    healthBar.setText(Main.player.health+" health");
+                    if (Main.player.health<=0) {
+                        hud.setOpaque(true);
+                        hud.setBackground(Color.RED);
+                        hud.add(new JLabel("YOU DIED"), BoxLayout.Y_AXIS);
+                    }
+                    Main.tickActors();
                 });
                 try {
                     btn.setIcon(new ImageIcon(ImageIO.read(new File("img/bigX.png")).getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
@@ -1023,8 +1131,10 @@ public class Gui extends JFrame {
                         BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
                         Graphics2D graphics = (Graphics2D) image.getGraphics();
                         graphics.setColor(Color.BLACK);
-                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, null);
-                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+                        if (Main.player.inventory.storage[index-11]!=null) {
+                            graphics.drawImage(Main.player.inventory.storage[index - 11].getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+                            graphics.drawString(String.valueOf(Main.player.inventory.storage[index - 11].count), (inventoryPanel.getWidth() / 9) - ((inventoryPanel.getWidth() / 9) / 5), (inventoryPanel.getHeight() / 5) - ((inventoryPanel.getHeight() / 5) / 5));
+                        }
 
                         graphics.dispose();
                         btn.setIcon(new ImageIcon(image));
@@ -1039,8 +1149,10 @@ public class Gui extends JFrame {
                         BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);
                         Graphics2D graphics = (Graphics2D) image.getGraphics();
                         graphics.setColor(Color.BLACK);
-                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, null);
-                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+                        if (Main.player.inventory.storage[index-11]!=null) {
+                            graphics.drawImage(Main.player.inventory.storage[index - 11].getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+                            graphics.drawString(String.valueOf(Main.player.inventory.storage[index - 11].count), (inventoryPanel.getWidth() / 9) - ((inventoryPanel.getWidth() / 9) / 5), (inventoryPanel.getHeight() / 5) - ((inventoryPanel.getHeight() / 5) / 5));
+                        }
 
                         graphics.dispose();
                         btn.setIcon(new ImageIcon(image));

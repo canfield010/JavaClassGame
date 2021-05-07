@@ -17,6 +17,7 @@ public class Villager extends Actor {
     public int cost = 50;
     public Item itemToSell = new Axe();
     public int value = 5;
+    public int swordCost = 150;
 
     public Villager() {
         super("Villager", (byte)2, null);

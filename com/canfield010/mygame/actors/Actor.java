@@ -39,6 +39,11 @@ public abstract class Actor {
         }
         if (inventory.specialItem instanceof ProtectionRing)
             damage-=damage*15;
+        health -= damage;
+        if (health<=0) {
+           squareOn.occupant = null;
+           Main.actors.remove(this);
+        }
     }
 
     public void move(MapSquare mapSquare) {
@@ -497,10 +502,6 @@ public abstract class Actor {
         }
 
         return null;
-    }
-
-    public void remove() {
-        Main.actors.remove(this);
     }
 
     public abstract Image getImage();

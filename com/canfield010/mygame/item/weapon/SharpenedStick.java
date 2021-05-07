@@ -5,6 +5,7 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.util.Random;
 
 public class SharpenedStick extends Weapon {
 
@@ -17,14 +18,13 @@ public class SharpenedStick extends Weapon {
         super("Sharpened Stick", 3, 2);
     }
 
-    /*@Override
+    @Override
     public void use(MapSquare square) {
-        square.actor.damage(
-                new Random().nextInt(maxDamage - minDamage) + minDamage
-        );
+        square.occupant.damage(new Random().nextInt(maxDamage - minDamage) + minDamage);
+        //System.out.println("damaging");
 
         // or I could do (int)(Math.random()*(maxDamage-minDamage) + minDamage); Idk if that would be better considering it's using a static mehtod instead of making a new instance.
-    }*/
+    }
 
     @Override
     public boolean isUseful(MapSquare square) {

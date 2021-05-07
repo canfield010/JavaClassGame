@@ -5,6 +5,7 @@ import com.canfield010.mygame.mapsquare.MapSquare;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.util.Random;
 
 public class IronSword extends Weapon {
 
@@ -13,16 +14,14 @@ public class IronSword extends Weapon {
     //private final int maxDamage = 12;
     //private final int minDamage = 9;
 
-    IronSword() {
+    public IronSword() {
         super("Iron Sword", 12, 9);
     }
 
-    /*@Override
+    @Override
     public void use(MapSquare square) {
-        square.actor.damage(
-                new Random().nextInt(maxDamage - minDamage) + minDamage
-        );
-    }*/
+        square.occupant.damage(new Random().nextInt(maxDamage - minDamage) + minDamage);
+    }
 
     @Override
     public boolean isUseful(MapSquare square) {
@@ -31,7 +30,7 @@ public class IronSword extends Weapon {
 
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/grass.png"));
+            image = ImageIO.read(new File("img/ironSword.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
