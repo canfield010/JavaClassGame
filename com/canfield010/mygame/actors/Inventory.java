@@ -22,5 +22,6 @@ public class Inventory {
 
     public Item[] storage = new Item[12];
     public Item backpack = null;
+    public int coins = 100;
 
 }

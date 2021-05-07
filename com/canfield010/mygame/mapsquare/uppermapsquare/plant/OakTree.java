@@ -9,8 +9,9 @@ public class OakTree extends Plant {
     public static Image image;
     public OakTree() {
         super("Oak Tree", false, 100, false);
-        buttons = new Button[1];
+        buttons = new Button[2];
         buttons[0] = Button.USE_ITEM;
+        buttons[1] = Button.DESTROY;
     }
 
     public static void setImage() {

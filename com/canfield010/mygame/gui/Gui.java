@@ -3,8 +3,13 @@ package com.canfield010.mygame.gui;
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.MapHolder;
 import com.canfield010.mygame.actors.Actor;
+import com.canfield010.mygame.actors.Villager;
+import com.canfield010.mygame.item.Log;
+import com.canfield010.mygame.item.tool.Axe;
 import com.canfield010.mygame.mapsquare.FinalPoint;
 import com.canfield010.mygame.mapsquare.MapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare;
+import com.canfield010.mygame.mapsquare.uppermapsquare.plant.OakTree;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -174,8 +179,74 @@ public class Gui extends JFrame {
                                     resetMovableSquares();
                                 }
                             });
+
                         }
-                        if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).upperMapSquare!=null) {
+                        if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).getButtons()!=null) {
+                            for (UpperMapSquare.Button btn : Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).getButtons()) {
+                                //System.out.println(btn);
+                                switch (btn) {
+                                    /*case DESTROY -> {
+                                        if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).upperMapSquare instanceof OakTree && Main.player.inventory.axe != null) {
+                                            FinalPoint point = null;
+                                            if (!(myBtns[finalIndex + 1].getBorder()==null)) {
+                                                point = new FinalPoint((finalIndex / rows) + 1 + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2));
+                                            }
+                                            if (!(myBtns[finalIndex - 1].getBorder() == null)) {
+                                                point = new FinalPoint((finalIndex / rows) - 1 + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2));
+                                            }
+                                            if (!(myBtns[finalIndex + cols].getBorder() == null)) {
+                                                point = new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + 1 + Main.playerPosition.y - (rows / 2));
+                                            }
+                                            if (!(myBtns[finalIndex - cols].getBorder() == null)) {
+                                                point = new FinalPoint((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) - 1 + Main.playerPosition.y - (rows / 2));
+                                            }
+                                            //if (point != null) {
+                                                //System.out.println(point.x + ", " + point.y);
+                                            //} else {
+                                                //System.out.println("null");
+                                            //}
+                                            if (point != null) {
+                                                int finalX = point.x;
+                                                int finalY = point.y;
+                                                popupMenu.add(new JMenuItem("Destroy")).addActionListener(event -> {
+                                                    movePlayer(new FinalPoint(Main.playerPosition.x, Main.playerPosition.y), new FinalPoint(finalX, finalY));
+                                                    resetMovableSquares();
+                                                    //Main.player.inventory.axe.use(Main.mapSquares.get(finalX, finalY));
+                                                    Main.player.inventory.axe.use(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                                    resetSizes();
+                                                });
+                                            }
+                                        }
+                                    }*/
+                                    case ATTACK -> popupMenu.add(new JMenuItem("Attack")).addActionListener(event -> {
+                                        //System.out.println("attacking");
+                                        if (Main.player.inventory.meleeWeapon != null) {
+                                            Main.player.inventory.meleeWeapon.use(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                        } else {
+                                            Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).occupant.damage(Math.random() > 0.5 ? 1 : 2);
+                                        }
+                                    });
+                                    case USE_ITEM -> popupMenu.add(new JMenuItem("Use Item")).addActionListener(event -> {
+                                        loadInventory(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                        layeredPane.add(inventoryPanel);
+                                        layeredPane.moveToFront(inventoryPanel);
+                                    });
+                                    case SHOOT -> {
+                                        if (Main.player.inventory.rangedWeapon!=null) {
+                                            popupMenu.add(new JMenuItem("Shoot")).addActionListener(event -> {
+                                                Main.player.inventory.rangedWeapon.use(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                            });
+                                        }
+                                    }
+                                    case TRADE -> popupMenu.add(new JMenuItem("Trade")).addActionListener(event -> {
+                                        loadInventoryTrades(Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)));
+                                        layeredPane.add(inventoryPanel);
+                                        layeredPane.moveToFront(inventoryPanel);
+                                    });
+                                }
+                            }
+                        }
+                        /*if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).upperMapSquare!=null) {
                             if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).upperMapSquare.buttons!=null) {
                                 for (com.canfield010.mygame.mapsquare.uppermapsquare.UpperMapSquare.Button btn : Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).upperMapSquare.buttons) {
                                     switch (btn) {
@@ -186,11 +257,11 @@ public class Gui extends JFrame {
                                                 //inventoryPanel.setBackground(Color.RED);
                                                 layeredPane.add(inventoryPanel);
                                                 layeredPane.moveToFront(inventoryPanel);
-                                                for (int index = 0; index<24; index++) {
-                                                    switch (index) {
+                                                //for (int index = 0; index<24; index++) {
+                                                    //switch (index) {
                                                         //case 0 ->
-                                                    }
-                                                }
+                                                    //}
+                                                //}
                                             //inventoryPanel.setVisible(true);
                                             // inventoryPanel.setVisible(true);
                                             //}
@@ -204,7 +275,7 @@ public class Gui extends JFrame {
                                     }
                                 }
                             }
-                        }
+                        }*/
                         popupMenu.show(e.getComponent(), e.getX(), e.getY());
                     } else {
                         if (btnBorder.equals(((JButton)e.getSource()).getBorder())) {
@@ -578,6 +649,16 @@ public class Gui extends JFrame {
                 btn = new JButton();
                 inventoryPanel.add(btn);
                 btn.setOpaque(false);
+                BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+                Graphics2D graphics = (Graphics2D) image.getGraphics();
+                graphics.setColor(Color.BLACK);
+                try {
+                    graphics.drawImage(ImageIO.read(new File("img/coin.png")), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 3, null);
+                } catch (Exception ignored) {}
+                graphics.drawString(String.valueOf(Main.player.inventory.coins), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/2), (inventoryPanel.getHeight()/3)-((inventoryPanel.getHeight()/3)/5));
+
+                graphics.dispose();
+                btn.setIcon(new ImageIcon(image));
             } else if (index == 18) {
                 btn = new JButton();
                 inventoryPanel.add(btn);
@@ -688,6 +769,285 @@ public class Gui extends JFrame {
                 }
             }
         }*/
+    }
+
+    public void loadInventoryTrades(MapSquare square) {
+        inventoryPanel = new JPanel();
+        inventoryPanel.setOpaque(false);
+        inventoryPanel.setLayout(new GridLayout(5, 9));
+        inventoryPanel.setBounds(layeredPane.getWidth()/10, layeredPane.getHeight()/10, layeredPane.getWidth()-(layeredPane.getWidth()/5), layeredPane.getHeight()-(layeredPane.getHeight()/5));
+
+        JButton btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        BufferedImage myImage = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+        Graphics2D myGraphics = (Graphics2D) myImage.getGraphics();
+        myGraphics.setColor(Color.BLACK);
+        myGraphics.drawImage(((Villager)square.occupant).itemToSell.getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+        myGraphics.drawString(((Villager)square.occupant).cost + " coins", (int)((inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/1.5)), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+        myGraphics.dispose();
+        btn.setIcon(new ImageIcon(myImage));
+        //System.out.println(Main.player.inventory.axe + ", " + Main.player.inventory.coins + ", " + ((Villager)square.occupant).cost);
+        if (Main.player.inventory.axe==null && Main.player.inventory.coins>=((Villager)square.occupant).cost) {
+            btn.setBorder(btnBorder);
+            btn.addActionListener(e -> {
+                //System.out.println("buying");
+                Main.player.inventory.coins-=((Villager)square.occupant).cost;
+                Main.player.inventory.axe = new Axe();
+                layeredPane.remove(inventoryPanel);
+                loadInventoryTrades(square);
+                layeredPane.add(inventoryPanel);
+                layeredPane.moveToFront(inventoryPanel);
+
+            });
+        }
+
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        myImage = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+        myGraphics = (Graphics2D) myImage.getGraphics();
+        myGraphics.setColor(Color.BLACK);
+        //myGraphics.drawImage(((Villager)square.occupant).itemToSell.getImage(), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+        try {
+            myGraphics.drawImage(ImageIO.read(new File("img/coin.png")), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+        } catch (Exception ignored) {}
+        myGraphics.drawString(1 + " log", (int)((inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/1.5)), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+        myGraphics.dispose();
+        btn.setIcon(new ImageIcon(myImage));
+        boolean hasWood = false;
+        for (int i = 0; i<12; i++) {
+            if (Main.player.inventory.storage[i] instanceof Log) {
+                if (Main.player.inventory.storage[i].count>0) {
+                    hasWood = true;
+                    break;
+                }
+            }
+        }
+        if (hasWood) {
+            btn.setBorder(btnBorder);
+            btn.addActionListener(e -> {
+                //System.out.println("buying");
+                for (int i = 0; i<12; i++) {
+                    if (Main.player.inventory.storage[i] instanceof Log) {
+                        Main.player.inventory.storage[i].count--;
+                        if (Main.player.inventory.storage[i].count==0) {
+                            Main.player.inventory.storage[i] = null;
+                        }
+                        Main.player.inventory.coins++;
+                        break;
+                    }
+                }
+                //Main.player.inventory.coins-=((Villager)square.occupant).cost;
+                //Main.player.inventory.axe = new Axe();
+                layeredPane.remove(inventoryPanel);
+                loadInventoryTrades(square);
+                layeredPane.add(inventoryPanel);
+                layeredPane.moveToFront(inventoryPanel);
+
+            });
+        }
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+        for (int i = 0; i<9; i++) {
+            btn = new JButton();
+            inventoryPanel.add(btn);
+            btn.setOpaque(false);
+            btn.setVisible(false);
+        }
+
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.axe!=null) {
+            /*if (Main.player.inventory.axe.isUseful(square)) {
+                btn.addActionListener(e -> {
+                    Main.player.inventory.axe.use(square);
+                    layeredPane.remove(inventoryPanel);
+                    for (Component jBtn: inventoryPanel.getComponents()) {
+                        if (jBtn!=null) {
+                            if (((JButton) jBtn).getBorder().equals(btnBorder)) {
+                                ((JButton) jBtn).setBorder(null);
+                            }
+                        }
+                    }
+                    resetSizes();
+                });
+                btn.setBorder(btnBorder);
+            }*/
+            btn.setIcon(new ImageIcon(Main.player.inventory.axe.getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.meleeWeapon!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.meleeWeapon.getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.rangedWeapon!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.rangedWeapon.getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.armor[0]!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.armor[0].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.armor[1]!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.armor[1].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.armor[2]!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.armor[2].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.armor[3]!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.armor[3].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        if (Main.player.inventory.pickaxe!=null) {
+            btn.setIcon(new ImageIcon(Main.player.inventory.pickaxe.getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+        }
+        btn = new JButton();
+        inventoryPanel.add(btn);
+        btn.setOpaque(false);
+        btn.setVisible(false);
+
+
+        for (int index = 11; index < 27; index++) {
+            if (index == 17) {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+                Graphics2D graphics = (Graphics2D) image.getGraphics();
+                graphics.setColor(Color.BLACK);
+                try {
+                    graphics.drawImage(ImageIO.read(new File("img/coin.png")), 0, 0, inventoryPanel.getWidth() / 9, inventoryPanel.getHeight() / 5, null);
+                } catch (Exception ignored) {}
+                graphics.drawString(String.valueOf(Main.player.inventory.coins), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/2), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+                graphics.dispose();
+                btn.setIcon(new ImageIcon(image));
+            } else if (index == 18) {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                if (Main.player.inventory.backpack!=null) {
+                    btn.setIcon(new ImageIcon(Main.player.inventory.backpack.getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+                }
+            } else if (index == 19) {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                btn.setVisible(false);
+            } else if (index == 26) {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                btn.addActionListener(e -> {
+                    layeredPane.remove(inventoryPanel);
+                    for (Component jBtn: inventoryPanel.getComponents()) {
+                        if (jBtn!=null) {
+                            if (((JButton) jBtn).getBorder().equals(btnBorder)) {
+                                ((JButton) jBtn).setBorder(null);
+                            }
+                        }
+                    }
+                    layeredPane.moveToFront(btnPanel);
+                });
+                try {
+                    btn.setIcon(new ImageIcon(ImageIO.read(new File("img/bigX.png")).getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, Image.SCALE_FAST)));
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            } else if (index < 16) {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                if (Main.player.inventory.storage!=null) {
+                    if (Main.player.inventory.storage[index-11]!=null) {
+                        BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);//(BufferedImage)((Image)Main.player.inventory.storage[index-11].getImage().getScaledInstance(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/3, Image.SCALE_FAST));
+                        Graphics2D graphics = (Graphics2D) image.getGraphics();
+                        graphics.setColor(Color.BLACK);
+                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, null);
+                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+                        graphics.dispose();
+                        btn.setIcon(new ImageIcon(image));
+                    }
+                }
+            } else {
+                btn = new JButton();
+                inventoryPanel.add(btn);
+                btn.setOpaque(false);
+                if (Main.player.inventory.storage!=null) {
+                    if (Main.player.inventory.storage[index-14]!=null) {
+                        BufferedImage image = new BufferedImage(inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D graphics = (Graphics2D) image.getGraphics();
+                        graphics.setColor(Color.BLACK);
+                        graphics.drawImage(Main.player.inventory.storage[index-11].getImage(), 0, 0,inventoryPanel.getWidth()/9, inventoryPanel.getHeight()/5, null);
+                        graphics.drawString(String.valueOf(Main.player.inventory.storage[index-11].count), (inventoryPanel.getWidth()/9)-((inventoryPanel.getWidth()/9)/5), (inventoryPanel.getHeight()/5)-((inventoryPanel.getHeight()/5)/5));
+
+                        graphics.dispose();
+                        btn.setIcon(new ImageIcon(image));
+                    }
+                }
+            }
+        }
     }
 
 

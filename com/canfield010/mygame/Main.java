@@ -2,6 +2,7 @@ package com.canfield010.mygame;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.actors.Player;
+import com.canfield010.mygame.actors.Villager;
 import com.canfield010.mygame.item.*;
 import com.canfield010.mygame.item.armor.boots.IronBoots;
 import com.canfield010.mygame.item.armor.boots.LeatherBoots;
@@ -44,7 +45,7 @@ public class Main {
     private static float growthToGo = 0;
     private static float dryingToGo = 0;
     public static final int PLANT_GROWTH_RATE = 10;
-    public static boolean testing = false;
+    //public static boolean testing = false;
     // default is 10.
 
     //private static final int VISION_SIZE = 256;
@@ -53,7 +54,7 @@ public class Main {
     public static MapHolder<MapSquare, Integer> backgroundSquares = new MapHolder<>();
     public static MapHolder<MapSquare, Integer> gameSquares = new MapHolder<>();
     public static MapHolder<MapSquare, Integer> mapSquares;
-    public static MapHolder<MapSquare, Byte> mySquares = new MapHolder<>();
+    //public static MapHolder<MapSquare, Byte> mySquares = new MapHolder<>();
     public static ArrayList<Farmland> farmland = new ArrayList<>();
     public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
@@ -89,7 +90,7 @@ public class Main {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -133,7 +134,7 @@ public class Main {
         gameSquares.setClass(MapSquare.class);
         mapSquares = gameSquares;
         player = new Player(mapSquares.get(0, 0));
-        player.inventory.axe = new Axe();
+        //player.inventory.axe = new Axe();
         player.move(mapSquares.get(0, 0));
         mapSquares.set(0, 0, new MapSquare(new Grass(), null, player, new FinalPoint(0,0)));
         //mySquares.setClass(MapSquare.class);
@@ -148,7 +149,8 @@ public class Main {
             //}
         //}
         //System.out.println(mySquares.get((byte)10, (byte)10).lowerMapSquare.name);
-
+        Player.setImage();
+        Villager.setImage();
         Backpack.setImage();
         Coal.setImage();
         HealingStone.setImage();
@@ -215,19 +217,19 @@ public class Main {
         //System.out.println(testing.get(ten, ten));
     }
 
-    public void tick() {
+    /*public void tick() {
         tickActors();
         tickPlants();
-    }
+    }*/
 
-    public void tickActors() {
+    /*public void tickActors() {
         for (Actor actor: actors) {
             actor.tick();
         }
-    }
+    }*/
 
 
-    public void tickPlants() {
+    /*public void tickPlants() {
         // very slowly drying out farmland
         dryingToGo += ((float)farmland.size()* PLANT_GROWTH_RATE)/10000F;
         growthToGo += ((float)plants.size()* PLANT_GROWTH_RATE)/1000F;
@@ -252,7 +254,7 @@ public class Main {
             growthToGo--;
         }
 
-    }
+    }*/
 
     public static void animate(ArrayList<Point> path) {
         // I have no idea how this will work but it WILL work. I will find a way to make this look EPIC! EPIC I say!
@@ -272,15 +274,19 @@ public class Main {
                 //if (posY<1) {
                     //posY++;
                 //}
-                if (posX!=0 || posY!=0) {
+                //if (posX!=0 || posY!=0) {
                     switch (initialSquares[x][y]) {
                         case 0 -> mapSquares.set(posX, posY, new MapSquare(new Grass(), null, null, new FinalPoint(posX, posY)));
                         case 1 -> mapSquares.set(posX, posY, new MapSquare(new Grass(), new OakTree(), null, new FinalPoint(posX, posY)));
                         case 2 -> mapSquares.set(posX, posY, new MapSquare(new Water(), null, null, new FinalPoint(posX, posY)));
                         case 3 -> mapSquares.set(posX, posY, new MapSquare(new Stone(), null, null, new FinalPoint(posX, posY)));
                         case 4 -> mapSquares.set(posX, posY, new MapSquare(new Stone(), new StoneWall(), null, new FinalPoint(posX, posY)));
+                        case 5 -> {
+                            mapSquares.set(posX, posY, new MapSquare(new Grass(), null, new Villager(), new FinalPoint(posX, posY)));
+                            mapSquares.get(posX, posY).occupant.squareOn = mapSquares.get(posX, posY);
+                        }
                     }
-                }
+                //}
             }
         }
     }

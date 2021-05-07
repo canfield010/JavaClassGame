@@ -57,7 +57,7 @@ public class Axe extends Item {
 
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/grass.png"));
+            image = ImageIO.read(new File("img/axe.png"));
         } catch (Exception e) {
             System.out.println(e);
         }

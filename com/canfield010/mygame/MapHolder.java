@@ -131,7 +131,7 @@ public class MapHolder<T, E extends Number> {
         return currentNode.square;
     }*/
 
-    private T getSquare(int x, int y) {
+    /*private T getSquare(int x, int y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -161,7 +161,7 @@ public class MapHolder<T, E extends Number> {
             //generateSquare(currentNode.square);
         //}
         return currentNode.square;
-    }
+    }*/
     private T getSquare(long x, long y, long selector, boolean firstTime, int shiftCount) {
         long shiftingX = x;
         long shiftingY = y;
@@ -209,7 +209,7 @@ public class MapHolder<T, E extends Number> {
         //}
         return currentNode.square;
     }
-    private T getSquare(short x, short y) {
+    /*private T getSquare(short x, short y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -236,8 +236,8 @@ public class MapHolder<T, E extends Number> {
             //generateSquare(currentNode.square);
         //}
         return currentNode.square;
-    }
-    private T getSquare(byte x, byte y) {
+    }*/
+    /*private T getSquare(byte x, byte y) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -264,7 +264,7 @@ public class MapHolder<T, E extends Number> {
             //generateSquare(currentNode.square);
         //}
         return currentNode.square;
-    }
+    }*/
 
     private void setSquare(long x, long y, long selector, boolean firstTime, int shiftCount, T square) {
         Node currentNode = head;
@@ -312,7 +312,7 @@ public class MapHolder<T, E extends Number> {
         currentNode.square = square;
     }
 
-    private void setSquare(int x, int y, T square) {
+    /*private void setSquare(int x, int y, T square) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -338,8 +338,8 @@ public class MapHolder<T, E extends Number> {
 
         }
         currentNode.square = square;
-    }
-    private void setSquare(short x, short y, T square) {
+    }*/
+    /*private void setSquare(short x, short y, T square) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -362,8 +362,8 @@ public class MapHolder<T, E extends Number> {
             firstTime = false;
         }
         currentNode.square = square;
-    }
-    private void setSquare(byte x, byte y, T square) {
+    }*/
+    /*private void setSquare(byte x, byte y, T square) {
         Node currentNode = head;
         boolean firstTime = true;
         for (int i = 32; i>0; i--) {
@@ -386,14 +386,14 @@ public class MapHolder<T, E extends Number> {
             firstTime = false;
         }
         currentNode.square = square;
-    }
+    }*/
 
 
     //public void generateSquare(MapSquare square) {
         //square.lowerMapSquare = new Grass();
     //}
 
-    private static int sizeof(Class dataType) {
+    /*private static int sizeof(Class dataType) {
         if (dataType == null) return 4;
 
         if (dataType == int.class    || dataType == Integer.class)   return 4;
@@ -406,7 +406,7 @@ public class MapHolder<T, E extends Number> {
 
         return 4; // 32-bit memory pointer...
         // (I'm not sure how this works on a 64-bit OS)
-    }
+    }*/
 
     private class Node {
         private Node nextUpRight = null;

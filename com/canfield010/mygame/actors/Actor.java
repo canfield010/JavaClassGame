@@ -33,7 +33,9 @@ public abstract class Actor {
 
     public void damage(int damage) {
         for (Armor armor: inventory.armor) {
-            damage-=damage*armor.reduction;
+            if (armor!=null) {
+                damage -= damage * armor.reduction;
+            }
         }
         if (inventory.specialItem instanceof ProtectionRing)
             damage-=damage*15;

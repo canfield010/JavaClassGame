@@ -11,7 +11,7 @@ import java.io.File;
 public class Farmland extends LowerMapSquare {
 
     public byte hydration = 0;
-    public static final String imageLocation = "img/grass.png";
+    //public static final String imageLocation = "img/grass.png";
     public static Image image;
 
     public Farmland() {

@@ -2,8 +2,7 @@ package com.canfield010.mygame.mapsquare;
 
 import com.canfield010.mygame.actors.Actor;
 import com.canfield010.mygame.actors.Player;
-import com.canfield010.mygame.gui.Button;
-import com.canfield010.mygame.mapsquare.FinalPoint;
+import com.canfield010.mygame.actors.Villager;
 import com.canfield010.mygame.mapsquare.lowermapsquare.*;
 import com.canfield010.mygame.mapsquare.uppermapsquare.IronDoor;
 import com.canfield010.mygame.mapsquare.uppermapsquare.StoneWall;
@@ -17,12 +16,7 @@ import com.canfield010.mygame.mapsquare.uppermapsquare.plant.Potato;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -72,7 +66,7 @@ public class MapSquare{
         StoneWall.setImage();
     }
 
-    public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {
+    /*public static BufferedImage getABufferedImage(String imageLocation, int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = bufferedImage.createGraphics();
 
@@ -84,7 +78,7 @@ public class MapSquare{
         }
         g2.dispose();
         return bufferedImage;
-    }
+    }*/
 
     public ImageIcon getImage(int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
@@ -120,6 +114,48 @@ public class MapSquare{
             return lowerMapSquare.canMoveThrough && occupant == null;
         } else {
             return lowerMapSquare.canMoveThrough && upperMapSquare.canMoveThrough && occupant == null;
+        }
+    }
+    public UpperMapSquare.Button[] getButtons() {
+        if (upperMapSquare!=null) {
+            if (occupant == null) {
+                return upperMapSquare.buttons;
+            } else {
+                if (occupant instanceof Villager) {
+                    UpperMapSquare.Button[] btns = new UpperMapSquare.Button[upperMapSquare.buttons.length + 3];
+                    System.arraycopy(upperMapSquare.buttons, 0, btns, 0, upperMapSquare.buttons.length);
+                    btns[btns.length - 3] = UpperMapSquare.Button.TRADE;
+                    btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
+                    btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    return btns;
+                } else {
+                    UpperMapSquare.Button[] btns = new UpperMapSquare.Button[upperMapSquare.buttons.length + 2];
+                    System.arraycopy(upperMapSquare.buttons, 0, btns, 0, upperMapSquare.buttons.length);
+                    btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
+                    btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    return btns;
+                }
+            }
+        } else {
+            if (occupant==null) {
+                return null;
+            } else {
+                if (occupant instanceof Villager) {
+                    //System.out.println("he's a villy");
+                    UpperMapSquare.Button[] btns = new UpperMapSquare.Button[3];
+                    //System.arraycopy(upperMapSquare.buttons, 0, btns, 0, upperMapSquare.buttons.length);
+                    btns[btns.length - 3] = UpperMapSquare.Button.TRADE;
+                    btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
+                    btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    return btns;
+                } else {
+                    UpperMapSquare.Button[] btns = new UpperMapSquare.Button[2];
+                    //System.arraycopy(upperMapSquare.buttons, 0, btns, 0, upperMapSquare.buttons.length);
+                    btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
+                    btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    return btns;
+                }
+            }
         }
     }
 }

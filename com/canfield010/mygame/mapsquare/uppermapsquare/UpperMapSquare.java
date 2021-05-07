@@ -15,7 +15,10 @@ public abstract class UpperMapSquare {
 
     public enum Button {
         USE_ITEM,
-        DESTROY
+        DESTROY,
+        ATTACK,
+        SHOOT,
+        TRADE
     }
 
 }
