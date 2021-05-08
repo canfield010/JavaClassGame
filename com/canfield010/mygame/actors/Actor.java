@@ -19,7 +19,7 @@ public abstract class Actor {
     public Inventory inventory = new Inventory();
     public int health = 20;
     public int maxHealth = 20;
-    public double width = 0.5;
+    //public double width = 0.5;
     public byte movementRange;
     public String name;
     public MapSquare squareOn;

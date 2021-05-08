@@ -13,10 +13,10 @@ public class Villager extends Actor {
 
     public static Image image;
 
-    public Item itemToBuy = new Log();
+    //public Item itemToBuy = new Log();
     public int cost = 50;
     public Item itemToSell = new Axe();
-    public int value = 5;
+    //public int value = 5;
     public int swordCost = 150;
 
     public Villager() {

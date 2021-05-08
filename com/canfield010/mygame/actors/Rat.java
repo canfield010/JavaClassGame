@@ -2,24 +2,20 @@ package com.canfield010.mygame.actors;
 
 import com.canfield010.mygame.Main;
 import com.canfield010.mygame.MapHolder;
-import com.canfield010.mygame.item.weapon.RustyIronSword;
-import com.canfield010.mygame.item.weapon.SharpenedStick;
-import com.canfield010.mygame.mapsquare.MapSquare;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 
-public class Skeleton extends Actor {
+public class Rat extends Actor{
 
-    public final byte searchRange = 20;
-    //public final byte attackRange = 15;
     public static Image image;
 
-    public Skeleton() {
-        super("Skeleton", (byte)4, null);
-        inventory.meleeWeapon = new SharpenedStick();
-        health = 5;
+    public static int searchRange = 15;
+
+    public Rat() {
+        super("Rat", (byte) 6, null);
+        health = 3;
     }
 
     @Override
@@ -48,18 +44,20 @@ public class Skeleton extends Actor {
                 }
 
                 if (Math.sqrt(dx*dx + dy*dy)==1) {
-                    inventory.meleeWeapon.use(actor.squareOn);
+                    //inventory.meleeWeapon.use(actor.squareOn);
                     //System.out.println(actor.health);
                     //Main.animateArrow();
+                    actor.damage(Math.random()>0.5 ? 1 : 2);
                 }
 
                 break;
             }
         }
     }
+
     public static void setImage() {
         try {
-            image = ImageIO.read(new File("img/skeleton.png"));
+            image = ImageIO.read(new File("img/rat.png"));
         } catch (Exception ignored) {}
     }
     public Image getImage() {

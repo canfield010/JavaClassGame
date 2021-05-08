@@ -1,9 +1,6 @@
 package com.canfield010.mygame;
 
-import com.canfield010.mygame.actors.Actor;
-import com.canfield010.mygame.actors.Player;
-import com.canfield010.mygame.actors.Skeleton;
-import com.canfield010.mygame.actors.Villager;
+import com.canfield010.mygame.actors.*;
 import com.canfield010.mygame.item.*;
 import com.canfield010.mygame.item.armor.boots.IronBoots;
 import com.canfield010.mygame.item.armor.boots.LeatherBoots;
@@ -41,10 +38,10 @@ import java.util.Random;
 
 public class Main {
     public static Point playerPosition = new Point();
-    private static final Random PLANT_RANDOM = new Random();
-    private static float growthToGo = 0;
-    private static float dryingToGo = 0;
-    public static final int PLANT_GROWTH_RATE = 10;
+    //private static final Random PLANT_RANDOM = new Random();
+    //private static float growthToGo = 0;
+    //private static float dryingToGo = 0;
+    //public static final int PLANT_GROWTH_RATE = 10;
     //public static boolean testing = false;
     // default is 10.
 
@@ -56,7 +53,7 @@ public class Main {
     public static MapHolder<MapSquare, Integer> mapSquares;
     //public static MapHolder<MapSquare, Byte> mySquares = new MapHolder<>();
     public static ArrayList<Farmland> farmland = new ArrayList<>();
-    public static ArrayList<MapSquare> plants = new ArrayList<>();
+    //public static ArrayList<MapSquare> plants = new ArrayList<>();
     public static ArrayList<Actor> actors = new ArrayList<>();
     public static Player player;// = new Player(gameSquares.get(0, 0));
 
@@ -78,7 +75,7 @@ public class Main {
             {4,4,3,3,3,4,3,4,3,3,3,3,3,3,3,4,3,4,3,3,3,4,3,4,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {4,4,4,4,4,4,3,4,4,4,3,4,4,4,3,4,3,4,3,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {4,4,3,3,3,3,3,4,3,3,3,3,3,4,3,3,3,4,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-            {4,4,3,4,4,4,4,4,3,4,3,4,3,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {4,4,3,4,4,4,4,4,3,4,3,4,3,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0},
             {4,4,3,4,3,3,3,3,3,4,3,4,3,4,3,3,3,3,3,4,3,3,3,4,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
             {4,4,3,4,3,4,4,4,4,4,3,4,3,4,3,4,4,4,3,4,4,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {4,4,3,4,3,4,3,3,3,3,3,4,3,4,3,3,3,4,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -111,7 +108,7 @@ public class Main {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -153,6 +150,7 @@ public class Main {
         Player.setImage();
         Villager.setImage();
         Skeleton.setImage();
+        Rat.setImage();
         Backpack.setImage();
         Coal.setImage();
         HealingStone.setImage();
@@ -258,12 +256,12 @@ public class Main {
 
     }*/
 
-    public static void animate(ArrayList<Point> path) {
+    //public static void animate(ArrayList<Point> path) {
         // I have no idea how this will work but it WILL work. I will find a way to make this look EPIC! EPIC I say!
-    }
-    public static void animateArrow() {
+    //}
+    //public static void animateArrow() {
 
-    }
+    //}
 
     public static void initializeMap() {
         for (int x = 0; x<initialSquares.length;x++) {
@@ -290,6 +288,11 @@ public class Main {
                         }
                         case 6 -> {
                             mapSquares.set(posX, posY, new MapSquare(new Grass(), null, new Skeleton(), new FinalPoint(posX, posY)));
+                            mapSquares.get(posX, posY).occupant.squareOn = mapSquares.get(posX, posY);
+                            actors.add(mapSquares.get(posX, posY).occupant);
+                        }
+                        case 7 -> {
+                            mapSquares.set(posX, posY, new MapSquare(new Grass(), null, new Rat(), new FinalPoint(posX, posY)));
                             mapSquares.get(posX, posY).occupant.squareOn = mapSquares.get(posX, posY);
                             actors.add(mapSquares.get(posX, posY).occupant);
                         }

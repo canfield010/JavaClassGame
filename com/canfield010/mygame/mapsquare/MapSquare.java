@@ -131,8 +131,10 @@ public class MapSquare{
                 } else {
                     UpperMapSquare.Button[] btns = new UpperMapSquare.Button[upperMapSquare.buttons.length + 2];
                     System.arraycopy(upperMapSquare.buttons, 0, btns, 0, upperMapSquare.buttons.length);
-                    btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
-                    btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    if (!(occupant instanceof Player)) {
+                        btns[btns.length - 2] = UpperMapSquare.Button.ATTACK;
+                        btns[btns.length - 1] = UpperMapSquare.Button.SHOOT;
+                    }
                     return btns;
                 }
             }

@@ -14,7 +14,7 @@ public class Player extends Actor {
     public static Image image;
 
     public Player(MapSquare squareOn) {
-        super("Player", (byte)8, squareOn);
+        super("Player", (byte)10, squareOn);
         Main.actors.add(this);
     }
 

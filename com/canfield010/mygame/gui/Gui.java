@@ -246,6 +246,9 @@ public class Gui extends JFrame {
                                         } else {
                                             Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).occupant.damage(Math.random() > 0.5 ? 1 : 2);
                                         }
+                                        if (Main.mapSquares.get((finalIndex / rows) + Main.playerPosition.x - (cols / 2), (finalIndex % rows) + Main.playerPosition.y - (rows / 2)).occupant==null) {
+                                            resetSizes();
+                                        }
                                         Main.tickActors();
                                         healthBar.setText(Main.player.health+" health");
                                         if (Main.player.health<=0) {
